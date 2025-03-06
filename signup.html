@@ -1,206 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Sign Up</title>
-    <style>
-        body {
-            background-color: black;
-            color: yellow;
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 8px;
-            width: 300px;
-        }
-
-        .container h2 {
-            text-align: center;
-        }
-
-        .container label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .container input,
-        .container select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid yellow;
-            background-color: transparent;
-            color: yellow;
-            box-sizing: border-box;
-        }
-
-        .container button {
-            width: 100%;
-            padding: 10px;
-            background-color: yellow;
-            color: black;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .tab-button {
-            background-color: transparent;
-            color: yellow;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        .tab-button.active {
-            border-bottom: 2px solid yellow;
-        }
-
-        .tab-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Sign Up</title>
+  <style>
+    body {
+      background-color: black;
+      color: yellow;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+    }
+    .container h2 {
+      text-align: center;
+    }
+    .container label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .container input,
+    .container select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid yellow;
+      background-color: transparent;
+      color: yellow;
+      box-sizing: border-box;
+    }
+    .container button {
+      width: 100%;
+      padding: 10px;
+      background-color: yellow;
+      color: black;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .error-message {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .tab-button {
+      background-color: transparent;
+      color: yellow;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .tab-button.active {
+      border-bottom: 2px solid yellow;
+    }
+    .tab-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="tab-container">
-            <button class="tab-button active" data-tab="login">Login</button>
-            <button class="tab-button" data-tab="signup">Sign Up</button>
-        </div>
-
-        <div id="login" class="tab-content active">
-            <h2>Login</h2>
-            <form id="login-form">
-                <label for="loginUsername">Username:</label>
-                <input type="text" id="loginUsername" name="loginUsername" required>
-
-                <label for="loginPassword">Password:</label>
-                <input type="password" id="loginPassword" name="loginPassword" required>
-
-                <button type="button" onclick="validateLogin()">Login</button>
-                <div id="loginErrorMessage" class="error-message"></div>
-            </form>
-        </div>
-
-        <div id="signup" class="tab-content">
-            <h2>Sign Up</h2>
-            <form id="signup-form">
-                <label for="fullName">Full Name:</label>
-                <input type="text" id="fullName" name="fullName" required>
-
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="number">Number:</label>
-                <input type="tel" id="number" name="number" required>
-
-                <label for="country">Country:</label>
-                <select id="country" name="country" required>
-                    <option value="">Select Country</option>
-                    <option value="USA">USA</option>
-                    <option value="Canada">Canada</option>
-                    <option value="UK">UK</option>
-                    <option value="Nigeria">Nigeria</option>
-                </select>
-
-                <label for="currency">Currency:</label>
-                <select id="currency" name="currency" required>
-                    <option value="">Select Currency</option>
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="NGN">NGN</option>
-                </select>
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-
-                <label for="securityQuestion">Security Question: 8 + 5 - 9 =</label>
-                <input type="number" id="securityQuestion" name="securityQuestion" required>
-
-                <button type="button" onclick="validateSignup()">Sign Up</button>
-                <div id="signupErrorMessage" class="error-message"></div>
-            </form>
-        </div>
+  <div class="container">
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="login">Login</button>
+      <button class="tab-button" data-tab="signup">Sign Up</button>
     </div>
 
-    <script>
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const tabId = button.dataset.tab;
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(tabId).classList.add('active');
-                document.querySelectorAll('.tab-button').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                button.classList.add('active');
-            });
+    <div id="login" class="tab-content active">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="loginEmail">Email:</label>
+        <input type="email" id="loginEmail" name="loginEmail" required>
+
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword" required>
+
+        <button type="button" onclick="validateLogin()">Login</button>
+        <div id="loginErrorMessage" class="error-message"></div>
+      </form>
+    </div>
+
+    <div id="signup" class="tab-content">
+      <h2>Sign Up</h2>
+      <form id="signup-form">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="number">Number:</label>
+        <input type="tel" id="number" name="number" required>
+
+        <label for="country">Country:</label>
+        <select id="country" name="country" required>
+          <option value="">Select Country</option>
+          <option value="USA">USA</option>
+          <option value="Canada">Canada</option>
+          <option value="UK">UK</option>
+          <option value="Nigeria">Nigeria</option>
+        </select>
+
+        <label for="currency">Currency:</label>
+        <select id="currency" name="currency" required>
+          <option value="">Select Currency</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="NGN">NGN</option>
+        </select>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="securityQuestion">Security Question: 8 + 5 - 9 =</label>
+        <input type="number" id="securityQuestion" name="securityQuestion" required>
+
+        <button type="button" onclick="validateSignup()">Sign Up</button>
+        <div id="signupErrorMessage" class="error-message"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase and App Scripts -->
+  <script type="module">
+    // Import the Firebase modules you need from the CDN
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Your web app's Firebase configuration (replace with your actual config)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDVzBsLYYjQDHPO6GXelLV9pIOu-nmzqnY",
+      authDomain: "earn-money-online-9f77b.firebaseapp.com",
+      databaseURL: "https://earn-money-online-9f77b-default-rtdb.firebaseio.com",
+      projectId: "earn-money-online-9f77b",
+      storageBucket: "earn-money-online-9f77b.firebasestorage.app",
+      messagingSenderId: "119190206068",
+      appId: "1:119190206068:web:20c136c3c972039eacc321",
+      measurementId: "G-W6B3H6TQ8V"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Tab switching logic
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const tabId = button.dataset.tab;
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
         });
+        document.getElementById(tabId).classList.add('active');
+        document.querySelectorAll('.tab-button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        button.classList.add('active');
+      });
+    });
 
-        function validateLogin() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-            const errorMessageDiv = document.getElementById('loginErrorMessage');
+    // Login using Firebase Auth
+    window.validateLogin = function validateLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorMessageDiv = document.getElementById('loginErrorMessage');
 
-            // Replace with your actual authentication logic
-            if (username === "test" && password === "password") {
-                errorMessageDiv.textContent = "";
-                window.location.href = "dashboard.html"; // Redirect to dashboard
-            } else {
-                errorMessageDiv.textContent = "Invalid username or password.";
-            }
-        }
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Login successful, redirect to dashboard.html
+          errorMessageDiv.textContent = "";
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          errorMessageDiv.textContent = error.message;
+        });
+    };
 
-        function validateSignup() {
-            const securityAnswer = parseInt(document.getElementById('securityQuestion').value);
-            const expectedAnswer = 8 + 5 - 9;
-            const errorMessageDiv = document.getElementById('signupErrorMessage');
+    // Signup using Firebase Auth and store additional user data in Firestore
+    window.validateSignup = function validateSignup() {
+      const securityAnswer = parseInt(document.getElementById('securityQuestion').value);
+      const expectedAnswer = 8 + 5 - 9; // expected answer is 4
+      const errorMessageDiv = document.getElementById('signupErrorMessage');
 
-            if (securityAnswer !== expectedAnswer) {
-                errorMessageDiv.textContent = "Security question answer is incorrect.";
-                document.getElementById('signup-form').reset();
-            } else {
-                errorMessageDiv.textContent = "";
-                // Here, you would typically send the form data to your server
-                const formData = new FormData(document.getElementById('signup-form'));
-                const data = {};
-                formData.forEach((value, key) => (data[key] = value));
-                console.log(data);
-                alert("Signup successful!");
-                document.getElementById('signup-form').reset();
-                document.querySelector('[data-tab="login"]').click(); // switch to login tab
-            }
-        }
-    </script>
+      if (securityAnswer !== expectedAnswer) {
+        errorMessageDiv.textContent = "Security question answer is incorrect.";
+        document.getElementById('signup-form').reset();
+        return;
+      } else {
+        errorMessageDiv.textContent = "";
+      }
+
+      // Gather form data
+      const fullName = document.getElementById('fullName').value;
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const number = document.getElementById('number').value;
+      const country = document.getElementById('country').value;
+      const currency = document.getElementById('currency').value;
+      const password = document.getElementById('password').value;
+
+      // Create user with Firebase Auth
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // Save additional user info to Firestore
+          return setDoc(doc(db, "users", user.uid), {
+            fullName: fullName,
+            username: username,
+            email: email,
+            number: number,
+            country: country,
+            currency: currency,
+            createdAt: new Date()
+          });
+        })
+        .then(() => {
+          alert("Signup successful! Please log in.");
+          // Clear the signup form and switch to login tab
+          document.getElementById('signup-form').reset();
+          document.querySelector('[data-tab="login"]').click();
+        })
+        .catch((error) => {
+          errorMessageDiv.textContent = error.message;
+          console.error("Signup error:", error);
+        });
+    };
+  </script>
 </body>
 </html>
