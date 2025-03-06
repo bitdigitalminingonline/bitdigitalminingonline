@@ -1,56 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Finance Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crypto Finance Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
+  <div class="container">
 
-        <div class="header">
-            <p class="message"></p>
-            <p class="welcome">Welcome to <strong>Bit-Digital Mining</strong></p>
-            <p class="more"> </p>
-        </div>
-
-        <div class="profile-section">
-            <div class="profile">
-                <img src="usdt-icon.png" alt="USDT Logo" class="profile-img">
-                <div class="profile-info">
-                    <p class="username">Hello usha g</p>
-                    <p class="limit"> <span class="highlight"> </span></p>
-                    <p class="limit"> <span class="highlight"> </span></p>
-                </div>
-            </div>
-            <button class="vip-upgrade">VIP Upgrade</button>
-        </div>
-
-        <div class="balance-actions">
-            <div class="balance-card">
-                <p class="balance-title"><span class="highlight">0 USDT</span> = $<span id="usd-value">0</span></p>
-                <p class="balance-subtitle">Balance</p>
-            </div>
-            <div class="transaction-card">
-                <button class="action-btn" onclick="deposit()">Deposit</button>
-                <button class="action-btn" onclick="withdraw()">Withdraw</button>
-                <button class="action-btn">Transfer</button>
-            </div>
-        </div>
-
-        <div class="services">
-            <h3 class="services-title">Other Services</h3>
-            <div class="service-buttons">
-                <button class="service-btn">Financing</button>
-                <button class="service-btn">Wallet</button>
-                <button class="service-btn">Security</button>
-                <button class="service-btn">Questions</button>
-            </div>
-        </div>
-
+    <div class="header">
+      <p class="message"></p>
+      <p class="welcome">Welcome to <strong>Bit-Digital Mining</strong></p>
+      <p class="more"></p>
     </div>
-    <script src="script.js"></script>
+
+    <div class="profile-section">
+      <div class="profile">
+        <img src="usdt-icon.png" alt="USDT Logo" class="profile-img">
+        <div class="profile-info">
+          <p class="username">Hello usha g</p>
+          <p class="limit"><span class="highlight"></span></p>
+          <p class="limit"><span class="highlight"></span></p>
+        </div>
+      </div>
+      <button class="vip-upgrade">VIP Upgrade</button>
+    </div>
+
+    <div class="balance-actions">
+      <div class="balance-card">
+        <p class="balance-title"><span class="highlight">0 USDT</span> = $<span id="usd-value">0</span></p>
+        <p class="balance-subtitle">Balance</p>
+      </div>
+      <div class="transaction-card">
+        <button class="action-btn" onclick="deposit()">Deposit</button>
+        <button class="action-btn" onclick="withdraw()">Withdraw</button>
+        <button class="action-btn">Transfer</button>
+      </div>
+    </div>
+
+    <div class="services">
+      <h3 class="services-title">Other Services</h3>
+      <div class="service-buttons">
+        <button class="service-btn">Financing</button>
+        <button class="service-btn">Wallet</button>
+        <button class="service-btn">Security</button>
+        <button class="service-btn">Questions</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Firebase and App Scripts -->
+  <script type="module">
+    // Import Firebase modules from the CDN
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Your Firebase configuration (replace with your actual config)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDVzBsLYYjQDHPO6GXelLV9pIOu-nmzqnY",
+      authDomain: "earn-money-online-9f77b.firebaseapp.com",
+      databaseURL: "https://earn-money-online-9f77b-default-rtdb.firebaseio.com",
+      projectId: "earn-money-online-9f77b",
+      storageBucket: "earn-money-online-9f77b.firebasestorage.app",
+      messagingSenderId: "119190206068",
+      appId: "1:119190206068:web:20c136c3c972039eacc321",
+      measurementId: "G-W6B3H6TQ8V"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Listen for auth state changes
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        // User is signed in; fetch user data from Firestore
+        const userDocRef = doc(db, "users", user.uid);
+        getDoc(userDocRef)
+          .then(docSnapshot => {
+            if (docSnapshot.exists()) {
+              const userData = docSnapshot.data();
+              // Update welcome messages with the user's full name
+              document.querySelector(".welcome").innerHTML = "Welcome to <strong>" + userData.fullName + "</strong>";
+              document.querySelector(".profile-info .username").textContent = "Hello " + userData.fullName;
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching user data:", error);
+          });
+      } else {
+        // If not signed in, redirect to login page
+        window.location.href = "login.html";
+      }
+    });
+
+    // Optional: Define deposit() and withdraw() functions if needed.
+    window.deposit = function() {
+      alert("Deposit function not implemented.");
+    };
+
+    window.withdraw = function() {
+      alert("Withdraw function not implemented.");
+    };
+  </script>
 </body>
 </html>
