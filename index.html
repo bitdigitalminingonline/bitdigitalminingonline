@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Financial Income Platform</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Add this CSS to your style.css or within a <style> tag */
+    .btn {
+      display: block; /* Make it a block element to center it */
+      width: fit-content; /* Adjust width to content */
+      margin: 20px auto; /* Center horizontally and add margin */
+      padding: 10px 20px;
+      background-color: white;
+      color: black; /* Or any color you prefer for the text */
+      text-decoration: none;
+      border-radius: 5px;
+      border: 1px solid #ccc; /* Optional border */
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-bar">
+    <h1>Financial income platform</h1>
+    <div class="language-switch">
+      <img src="images/us_flag.png" alt="English" />
+      <span>English</span>
+    </div>
+  </header>
+
+  <section class="banner">
+    <img src="images/usdt_btc_banner.jpg" alt="USDT and BTC" class="banner-img" />
+  </section>
+
+  <a href="signup.html" class="btn">Get Started</a>
+
+  <section class="financing">
+    <h2>Financing</h2>
+    <div class="financing-cards" id="financing-cards">
+      <div class="financing-card">
+        <div class="financing-card-title">USDT <span>120days</span></div>
+        <div class="financing-card-yield">63.5%<br/><span>yield</span></div>
+      </div>
+      <div class="financing-card">
+        <div class="financing-card-title">USDT <span>90days</span></div>
+        <div class="financing-card-yield">52.8%<br/><span>yield</span></div>
+      </div>
+      <div class="financing-card">
+        <div class="financing-card-title">USDT <span>60days</span></div>
+        <div class="financing-card-yield">30.6%<br/><span>yield</span></div>
+      </div>
+    </div>
+    <a href="#" class="more-link">+More</a>
+  </section>
+
+  <section class="quotation">
+    <h2>Quotation</h2>
+    <ul class="quotation-list" id="quotation-list">
+      <li>
+        <div class="coin-name">BTC</div>
+        <div class="coin-price">$90435</div>
+        <div class="coin-change positive">+3.3%</div>
+      </li>
+      <li>
+        <div class="coin-name">ETH</div>
+        <div class="coin-price">$2239.9</div>
+        <div class="coin-change positive">+3.2%</div>
+      </li>
+      <li>
+        <div class="coin-name">USDT</div>
+        <div class="coin-price">$1.0007</div>
+        <div class="coin-change positive">+0.05%</div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="revenue">
+    <h2>Revenue</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>username</th>
+          <th>amount</th>
+          <th>date</th>
+        </tr>
+      </thead>
+      <tbody id="revenue-table-body">
+        </tbody>
+    </table>
+  </section>
+
+  <nav class="bottom-nav">
+    <a href="#" class="bottom-nav-link active">
+      <span>Home</span>
+    </a>
+    <a href="#" class="bottom-nav-link">
+      <span>Financing</span>
+    </a>
+    <a href="#" class="bottom-nav-link">
+      <span>Vip</span>
+    </a>
+    <a href="#" class="bottom-nav-link">
+      <span>Account</span>
+    </a>
+  </nav>
+
+  <div class="chat-button">
+    <button>Chat</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
