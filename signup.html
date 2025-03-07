@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login / Sign Up</title>
+  <title>Login & Sign Up</title>
   <style>
     body {
       background-color: black;
-      color: yellow;
+      color: white;
       font-family: sans-serif;
       display: flex;
       justify-content: center;
@@ -33,15 +33,15 @@
       width: 100%;
       padding: 8px;
       margin-bottom: 10px;
-      border: 1px solid yellow;
+      border: 1px solid blue;
       background-color: transparent;
-      color: yellow;
+      color: white;
       box-sizing: border-box;
     }
     .container button {
       width: 100%;
       padding: 10px;
-      background-color: yellow;
+      background-color: white;
       color: black;
       border: none;
       border-radius: 4px;
@@ -52,20 +52,14 @@
       text-align: center;
       margin-top: 10px;
     }
-    .tab-button {
-      background-color: transparent;
-      color: yellow;
-      border: none;
-      padding: 10px 20px;
+    .link-text {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .link-text a {
+      color: blue;
+      text-decoration: underline;
       cursor: pointer;
-    }
-    .tab-button.active {
-      border-bottom: 2px solid yellow;
-    }
-    .tab-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
     }
     .tab-content {
       display: none;
@@ -77,11 +71,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="tab-container">
-      <button class="tab-button active" data-tab="login">Login</button>
-      <button class="tab-button" data-tab="signup">Sign Up</button>
-    </div>
-
+    <!-- Login Form -->
     <div id="login" class="tab-content active">
       <h2>Login</h2>
       <form id="login-form">
@@ -93,9 +83,16 @@
 
         <button type="button" onclick="validateLogin()">Login</button>
         <div id="loginErrorMessage" class="error-message"></div>
+
+        <!-- Sign Up Link -->
+        <p class="link-text">
+          Don't have an account yet? 
+          <a onclick="switchToSignup()">Sign up</a>
+        </p>
       </form>
     </div>
 
+    <!-- Sign Up Form -->
     <div id="signup" class="tab-content">
       <h2>Sign Up</h2>
       <form id="signup-form">
@@ -117,7 +114,8 @@
           <option value="USA">USA</option>
           <option value="Canada">Canada</option>
           <option value="UK">UK</option>
-          <option value="Nigeria">Nigeria</option>
+          <option value="Australia">Australia</option>
+          <option value="India">India</option>
         </select>
 
         <label for="currency">Currency:</label>
@@ -126,7 +124,8 @@
           <option value="USD">USD</option>
           <option value="EUR">EUR</option>
           <option value="GBP">GBP</option>
-          <option value="NGN">NGN</option>
+          <option value="AUD">AUD</option>
+          <option value="INR">INR</option>
         </select>
 
         <label for="password">Password:</label>
@@ -137,18 +136,22 @@
 
         <button type="button" onclick="validateSignup()">Sign Up</button>
         <div id="signupErrorMessage" class="error-message"></div>
+
+        <!-- Login Link -->
+        <p class="link-text">
+          Already have an account? 
+          <a onclick="switchToLogin()">Click here to login</a>
+        </p>
       </form>
     </div>
   </div>
 
   <!-- Firebase and App Scripts -->
   <script type="module">
-    // Import the Firebase modules you need from the CDN
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    // Your web app's Firebase configuration (replace with your actual config)
     const firebaseConfig = {
       apiKey: "AIzaSyDVzBsLYYjQDHPO6GXelLV9pIOu-nmzqnY",
       authDomain: "earn-money-online-9f77b.firebaseapp.com",
@@ -160,58 +163,37 @@
       measurementId: "G-W6B3H6TQ8V"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Tab switching logic
-    document.querySelectorAll('.tab-button').forEach(button => {
-      button.addEventListener('click', () => {
-        const tabId = button.dataset.tab;
-        document.querySelectorAll('.tab-content').forEach(content => {
-          content.classList.remove('active');
-        });
-        document.getElementById(tabId).classList.add('active');
-        document.querySelectorAll('.tab-button').forEach(btn => {
-          btn.classList.remove('active');
-        });
-        button.classList.add('active');
-      });
-    });
+    // Function to switch to signup tab
+    window.switchToSignup = function() {
+      document.getElementById("login").classList.remove("active");
+      document.getElementById("signup").classList.add("active");
+    };
 
-    // Login using Firebase Auth
-    window.validateLogin = function validateLogin() {
+    // Function to switch to login tab
+    window.switchToLogin = function() {
+      document.getElementById("signup").classList.remove("active");
+      document.getElementById("login").classList.add("active");
+    };
+
+    // Login function
+    window.validateLogin = function() {
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
       const errorMessageDiv = document.getElementById('loginErrorMessage');
 
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Login successful, redirect to dashboard.html
-          errorMessageDiv.textContent = "";
+        .then(() => {
           window.location.href = "dashboard.html";
         })
-        .catch((error) => {
-          errorMessageDiv.textContent = error.message;
-        });
+        .catch(error => errorMessageDiv.textContent = error.message);
     };
 
-    // Signup using Firebase Auth and store additional user data in Firestore
-    window.validateSignup = function validateSignup() {
-      const securityAnswer = parseInt(document.getElementById('securityQuestion').value);
-      const expectedAnswer = 8 + 5 - 9; // expected answer is 4
-      const errorMessageDiv = document.getElementById('signupErrorMessage');
-
-      if (securityAnswer !== expectedAnswer) {
-        errorMessageDiv.textContent = "Security question answer is incorrect.";
-        document.getElementById('signup-form').reset();
-        return;
-      } else {
-        errorMessageDiv.textContent = "";
-      }
-
-      // Gather form data
+    // Signup function
+    window.validateSignup = function() {
       const fullName = document.getElementById('fullName').value;
       const username = document.getElementById('username').value;
       const email = document.getElementById('email').value;
@@ -220,31 +202,12 @@
       const currency = document.getElementById('currency').value;
       const password = document.getElementById('password').value;
 
-      // Create user with Firebase Auth
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          // Save additional user info to Firestore
-          return setDoc(doc(db, "users", user.uid), {
-            fullName: fullName,
-            username: username,
-            email: email,
-            number: number,
-            country: country,
-            currency: currency,
-            createdAt: new Date()
-          });
-        })
         .then(() => {
           alert("Signup successful! Please log in.");
-          // Clear the signup form and switch to login tab
-          document.getElementById('signup-form').reset();
-          document.querySelector('[data-tab="login"]').click();
+          switchToLogin();
         })
-        .catch((error) => {
-          errorMessageDiv.textContent = error.message;
-          console.error("Signup error:", error);
-        });
+        .catch(error => document.getElementById('signupErrorMessage').textContent = error.message);
     };
   </script>
 </body>
