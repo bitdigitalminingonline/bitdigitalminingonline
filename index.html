@@ -6,6 +6,7 @@
   <title>Financial Income Platform</title>
   <link rel="stylesheet" href="style.css" />
   <style>
+    /* Button styling */
     .btn {
       display: block;
       width: fit-content;
@@ -17,20 +18,67 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+    /* Style for coin logos (BTC, ETH, USDT) */
+    .coin-logo {
+      width: 30px;
+      height: auto;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    /* Slider styles */
+    .slider {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slider-wrapper {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slider-image {
+      width: 100%;
+      flex-shrink: 0;
+    }
+    /* Quotation styles */
+    .quotation .coin-item {
+      display: flex;
+      align-items: center;
+      background-color: #333; /* Adjust background color */
+      border-radius: 10px; /* Adjust border radius */
+      padding: 10px; /* Adjust padding */
+      margin-bottom: 5px; /* Add space between items */
+    }
+
+    .quotation .coin-icon {
+      width: 40px; /* Adjust icon size */
+      height: 40px; /* Adjust icon size */
+      margin-right: 10px;
+    }
+
+    .quotation .coin-item span {
+      font-size: 1.2em; /* Adjust text size */
+      color: white; /* Adjust text color */
+    }
   </style>
 </head>
 <body>
 
   <header class="top-bar">
-    <h1>Financial income platform</h1>
+    <h1>The Opportunity of a Lifetime Awaits</h1>
     <div class="language-switch">
       <img src="images/us_flag.png" alt="English" />
-      <span>English</span>
+      <span></span>
     </div>
   </header>
 
-  <section class="banner">
-    <img src="images/usdt_btc_banner.jpg" alt="USDT and BTC" class="banner-img" />
+  <section class="slider">
+    <div class="slider-wrapper" id="slider-wrapper">
+      <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9535.jpeg?raw=true" alt="Slide 1" class="slider-image">
+      <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9536.jpeg?raw=true" alt="Slide 2" class="slider-image">
+      <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9408.jpeg?raw=true" alt="Slide 3" class="slider-image">
+    </div>
   </section>
 
   <a href="signup.html" class="btn">Get Started</a>
@@ -39,36 +87,57 @@
     <h2>Financing</h2>
     <div class="financing-cards" id="financing-cards">
       <div class="financing-card">
-        <div class="financing-card-title">USDT <span>120days</span></div>
-        <div class="financing-card-yield">63.5%<br/><span>yield</span></div>
+        <div class="financing-card-title">
+          <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9529.png?raw=true"
+               alt="USDT Logo" class="coin-logo">
+          USDT <span>120days</span>
+        </div>
+        <div class="financing-card-yield">63.5%<br><span>yield</span></div>
       </div>
       <div class="financing-card">
-        <div class="financing-card-title">USDT <span>90days</span></div>
-        <div class="financing-card-yield">52.8%<br/><span>yield</span></div>
+        <div class="financing-card-title">
+          <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9529.png?raw=true"
+               alt="USDT Logo" class="coin-logo">
+          USDT <span>90days</span>
+        </div>
+        <div class="financing-card-yield">52.8%<br><span>yield</span></div>
       </div>
       <div class="financing-card">
-        <div class="financing-card-title">USDT <span>60days</span></div>
-        <div class="financing-card-yield">30.6%<br/><span>yield</span></div>
+        <div class="financing-card-title">
+          <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9529.png?raw=true"
+               alt="USDT Logo" class="coin-logo">
+          USDT <span>60days</span>
+        </div>
+        <div class="financing-card-yield">30.6%<br><span>yield</span></div>
       </div>
     </div>
-    <a href="#" class="more-link">+More</a>
+    <a href="#" class="more-link"></a>
   </section>
 
   <section class="quotation">
     <h2>Quotation</h2>
     <ul class="quotation-list" id="quotation-list">
       <li>
-        <div class="coin-name">BTC</div>
+        <div class="coin-item">
+          <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9530.png?raw=true" alt="BTC Logo" class="coin-icon">
+          <span>BTC</span>
+        </div>
         <div class="coin-price">$90435</div>
         <div class="coin-change positive">+3.3%</div>
       </li>
       <li>
-        <div class="coin-name">ETH</div>
+        <div class="coin-item">
+          <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9531.png?raw=true" alt="ETH Logo" class="coin-icon">
+          <span>ETH</span>
+        </div>
         <div class="coin-price">$2239.9</div>
         <div class="coin-change positive">+3.2%</div>
       </li>
       <li>
-        <div class="coin-name">USDT</div>
+        <div class="coin-item">
+          <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9529.png?raw=true" alt="USDT Logo" class="coin-icon">
+          <span>USDT</span>
+        </div>
         <div class="coin-price">$1.0007</div>
         <div class="coin-change positive">+0.05%</div>
       </li>
@@ -80,13 +149,13 @@
     <table>
       <thead>
         <tr>
-          <th>username</th>
-          <th>amount</th>
-          <th>date</th>
+          <th>Username</th>
+          <th>Amount</th>
+          <th>Date</th>
         </tr>
       </thead>
       <tbody id="revenue-table-body">
-        </tbody>
+      </tbody>
     </table>
   </section>
 
@@ -98,7 +167,7 @@
       <span>Financing</span>
     </a>
     <a href="#" class="bottom-nav-link">
-      <span>Vip</span>
+      <span>VIP</span>
     </a>
     <a href="#" class="bottom-nav-link">
       <span>Account</span>
@@ -109,6 +178,35 @@
     <button>Chat</button>
   </div>
 
+  <script>
+    // Slider script (same as before)
+    const sliderWrapper = document.getElementById('slider-wrapper');
+    const images = sliderWrapper.querySelectorAll('.slider-image');
+    let counter = 0;
+    const slideWidth = images[0].clientWidth;
+
+    function slide() {
+      sliderWrapper.style.transform = `translateX(${-slideWidth * counter}px)`;
+    }
+
+    function nextSlide() {
+      counter++;
+      if (counter >= images.length) {
+        counter = 0;
+        sliderWrapper.style.transition = 'none'; // Disable transition for instant reset
+        sliderWrapper.style.transform = `translateX(0px)`; // Reset to the first image
+        setTimeout(() => {
+          sliderWrapper.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
+          counter = 1;
+          slide();
+        }, 50); // Small delay to allow reset before transition
+      } else {
+        slide();
+      }
+    }
+
+    setInterval(nextSlide, 3000); // Change slide every 3 seconds
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
