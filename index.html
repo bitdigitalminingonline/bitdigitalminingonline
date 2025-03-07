@@ -148,24 +148,8 @@
     </ul>
   </section>
 
-  <nav class="bottom-nav">
-    <a href="#" class="bottom-nav-link active">
-      <span>Home</span>
-    </a>
-    <a href="#" class="bottom-nav-link">
-      <span>Financing</span>
-    </a>
-    <a href="#" class="bottom-nav-link">
-      <span>VIP</span>
-    </a>
-    <a href="#" class="bottom-nav-link">
-      <span>Account</span>
-    </a>
-  </nav>
-
-
-  <script>
-    // Slider script
+<script>
+    // Slider script (same as before)
     const sliderWrapper = document.getElementById('slider-wrapper');
     const images = sliderWrapper.querySelectorAll('.slider-image');
     let counter = 0;
@@ -179,21 +163,20 @@
       counter++;
       if (counter >= images.length) {
         counter = 0;
-        sliderWrapper.style.transition = 'none'; 
-        sliderWrapper.style.transform = `translateX(0px)`; 
+        sliderWrapper.style.transition = 'none'; // Disable transition for instant reset
+        sliderWrapper.style.transform = `translateX(0px)`; // Reset to the first image
         setTimeout(() => {
-          sliderWrapper.style.transition = 'transform 0.5s ease-in-out'; 
+          sliderWrapper.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
           counter = 1;
           slide();
-        }, 50); 
+        }, 50); // Small delay to allow reset before transition
       } else {
         slide();
       }
     }
 
-    setInterval(nextSlide, 3000); 
+    setInterval(nextSlide, 3000); // Change slide every 3 seconds
   </script>
-
   <script src="script.js"></script>
 </body>
 </html>
