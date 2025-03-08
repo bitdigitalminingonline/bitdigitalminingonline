@@ -47,11 +47,12 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    .error-message {
-      color: red;
+    .error-message, .success-message {
       text-align: center;
       margin-top: 10px;
     }
+    .error-message { color: red; }
+    .success-message { color: green; }
     .link-text {
       text-align: center;
       margin-top: 10px;
@@ -68,11 +69,10 @@
       display: block;
     }
   </style>
-  <script src="//code.jivosite.com/widget/wV6zTzxS5q" async></script>
 </head>
 <body>
+
   <div class="container">
-    <!-- Login Form -->
     <div id="login" class="tab-content active">
       <h2>Login</h2>
       <form id="login-form">
@@ -82,16 +82,17 @@
         <label for="loginPassword">Password:</label>
         <input type="password" id="loginPassword" required>
 
-        <button type="button" onclick="validateLogin()">Login</button>
+        <button type="button" id="loginButton">Login</button>
         <div id="loginErrorMessage" class="error-message"></div>
+        <div id="loginSuccessMessage" class="success-message"></div>
 
         <p class="link-text">
-          Don't have an account yet? <a onclick="switchToSignup()">Sign up</a>
+          Don't have an account yet?
+          <a onclick="switchToSignup()">Sign up</a>
         </p>
       </form>
     </div>
 
-    <!-- Sign Up Form -->
     <div id="signup" class="tab-content">
       <h2>Sign Up</h2>
       <form id="signup-form">
@@ -133,11 +134,13 @@
         <label for="securityQuestion">Security Question: 8 + 5 - 9 =</label>
         <input type="number" id="securityQuestion" required>
 
-        <button type="button" onclick="validateSignup()">Sign Up</button>
+        <button type="button" id="signupButton">Sign Up</button>
         <div id="signupErrorMessage" class="error-message"></div>
+        <div id="signupSuccessMessage" class="success-message"></div>
 
         <p class="link-text">
-          Already have an account? <a onclick="switchToLogin()">Click here to login</a>
+          Already have an account?
+          <a onclick="switchToLogin()">Click here to login</a>
         </p>
       </form>
     </div>
@@ -152,7 +155,7 @@
       apiKey: "AIzaSyCCpagmGDptexhmGsmOwEC21DAX5Sd0HcE",
       authDomain: "bit-digital-mining.firebaseapp.com",
       projectId: "bit-digital-mining",
-      storageBucket: "bit-digital-mining.appspot.com",
+      storageBucket: "bit-digital-mining.firebaseapp.com",
       messagingSenderId: "1075733392734",
       appId: "1:1075733392734:web:266003184fc5f67fd8b3cf"
     };
@@ -171,21 +174,27 @@
       document.getElementById("login").classList.add("active");
     };
 
-    window.validateLogin = function() {
+    document.getElementById("loginButton").addEventListener("click", function() {
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
       const errorMessageDiv = document.getElementById('loginErrorMessage');
+      const successMessageDiv = document.getElementById('loginSuccessMessage');
 
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-          window.location.href = "dashboard.html";
+          successMessageDiv.textContent = "Login successful! Redirecting...";
+          errorMessageDiv.textContent = "";
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 2000);
         })
         .catch(error => {
           errorMessageDiv.textContent = error.message;
+          successMessageDiv.textContent = "";
         });
-    };
+    });
 
-    window.validateSignup = async function() {
+    document.getElementById("signupButton").addEventListener("click", async function() {
       const fullName = document.getElementById('fullName').value;
       const username = document.getElementById('username').value;
       const email = document.getElementById('email').value;
@@ -194,30 +203,29 @@
       const currency = document.getElementById('currency').value;
       const password = document.getElementById('password').value;
       const securityAnswer = parseInt(document.getElementById('securityQuestion').value);
+      const errorMessageDiv = document.getElementById('signupErrorMessage');
+      const successMessageDiv = document.getElementById('signupSuccessMessage');
 
       if (securityAnswer !== 4) {
-        document.getElementById('signupErrorMessage').textContent = "Incorrect security answer.";
+        errorMessageDiv.textContent = "Incorrect security answer.";
         return;
       }
 
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-          const user = userCredential.user;
-          await setDoc(doc(db, "users", user.uid), {
-            fullName,
-            username,
-            email,
-            number,
-            country,
-            currency
-          });
-          alert("Signup successful! Please log in.");
-          switchToLogin();
-        })
-        .catch(error => {
-          document.getElementById('signupErrorMessage').textContent = error.message;
-        });
-    };
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), { fullName, username, email, number, country, currency });
+
+        successMessageDiv.textContent = "Sign-up successful! Redirecting...";
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 2000);
+      } catch (error) {
+        errorMessageDiv.textContent = error.message;
+      }
+    });
   </script>
+
 </body>
 </html>
