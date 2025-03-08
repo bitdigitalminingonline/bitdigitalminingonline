@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login & Sign Up</title>
+  <title>Sign Up & Login</title>
   <style>
     body {
       background-color: black;
@@ -67,38 +67,15 @@
     .tab-content.active {
       display: block;
     }
-    </style>
+  </style>
   
-    <!-- JivoChat Widget -->
+  <!-- JivoChat Widget -->
   <script src="//code.jivosite.com/widget/wV6zTzxS5q" async></script>
-
-  
 </head>
 <body>
   <div class="container">
-    <!-- Login Form -->
-    <div id="login" class="tab-content active">
-      <h2>Login</h2>
-      <form id="login-form">
-        <label for="loginEmail">Email:</label>
-        <input type="email" id="loginEmail" name="loginEmail" required>
-
-        <label for="loginPassword">Password:</label>
-        <input type="password" id="loginPassword" name="loginPassword" required>
-
-        <button type="button" onclick="validateLogin()">Login</button>
-        <div id="loginErrorMessage" class="error-message"></div>
-
-        <!-- Sign Up Link -->
-        <p class="link-text">
-          Don't have an account yet? 
-          <a onclick="switchToSignup()">Sign up</a>
-        </p>
-      </form>
-    </div>
-
-    <!-- Sign Up Form -->
-    <div id="signup" class="tab-content">
+    <!-- Sign Up Form (Displayed First) -->
+    <div id="signup" class="tab-content active">
       <h2>Sign Up</h2>
       <form id="signup-form">
         <label for="fullName">Full Name:</label>
@@ -149,14 +126,37 @@
         </p>
       </form>
     </div>
+
+    <!-- Login Form -->
+    <div id="login" class="tab-content">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="loginEmail">Email:</label>
+        <input type="email" id="loginEmail" name="loginEmail" required>
+
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword" required>
+
+        <button type="button" onclick="validateLogin()">Login</button>
+        <div id="loginErrorMessage" class="error-message"></div>
+
+        <!-- Sign Up Link -->
+        <p class="link-text">
+          Don't have an account yet? 
+          <a onclick="switchToSignup()">Sign up</a>
+        </p>
+      </form>
+    </div>
   </div>
 
   <!-- Firebase and App Scripts -->
   <script type="module">
+    // Import necessary Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDVzBsLYYjQDHPO6GXelLV9pIOu-nmzqnY",
       authDomain: "earn-money-online-9f77b.firebaseapp.com",
@@ -168,6 +168,7 @@
       measurementId: "G-W6B3H6TQ8V"
     };
 
+    // Initialize Firebase, Authentication, and Firestore
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -194,10 +195,12 @@
         .then(() => {
           window.location.href = "dashboard.html";
         })
-        .catch(error => errorMessageDiv.textContent = error.message);
+        .catch(error => {
+          errorMessageDiv.textContent = error.message;
+        });
     };
 
-    // Signup function
+    // Signup function with Firestore integration
     window.validateSignup = function() {
       const fullName = document.getElementById('fullName').value;
       const username = document.getElementById('username').value;
@@ -208,11 +211,25 @@
       const password = document.getElementById('password').value;
 
       createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          // Save additional user info to Firestore using the user's UID as the document ID
+          return setDoc(doc(db, "users", user.uid), {
+            fullName: fullName,
+            username: username,
+            email: email,
+            number: number,
+            country: country,
+            currency: currency
+          });
+        })
         .then(() => {
           alert("Signup successful! Please log in.");
           switchToLogin();
         })
-        .catch(error => document.getElementById('signupErrorMessage').textContent = error.message);
+        .catch(error => {
+          document.getElementById('signupErrorMessage').textContent = error.message;
+        });
     };
   </script>
 </body>
