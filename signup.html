@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up & Login</title>
+  <title>Login & Sign Up</title>
   <style>
     body {
       background-color: black;
@@ -67,15 +67,32 @@
     .tab-content.active {
       display: block;
     }
-  </style>
-  
-  <!-- JivoChat Widget -->
-  <script src="//code.jivosite.com/widget/wV6zTzxS5q" async></script>
+    </style>
+
+    <script src="//code.jivosite.com/widget/wV6zTzxS5q" async></script>
 </head>
 <body>
   <div class="container">
-    <!-- Sign Up Form (Displayed First) -->
-    <div id="signup" class="tab-content active">
+    <div id="login" class="tab-content active">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="loginEmail">Email:</label>
+        <input type="email" id="loginEmail" name="loginEmail" required>
+
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword" required>
+
+        <button type="button" onclick="validateLogin()">Login</button>
+        <div id="loginErrorMessage" class="error-message"></div>
+
+        <p class="link-text">
+          Don't have an account yet?
+          <a onclick="switchToSignup()">Sign up</a>
+        </p>
+      </form>
+    </div>
+
+    <div id="signup" class="tab-content">
       <h2>Sign Up</h2>
       <form id="signup-form">
         <label for="fullName">Full Name:</label>
@@ -119,72 +136,45 @@
         <button type="button" onclick="validateSignup()">Sign Up</button>
         <div id="signupErrorMessage" class="error-message"></div>
 
-        <!-- Login Link -->
         <p class="link-text">
-          Already have an account? 
+          Already have an account?
           <a onclick="switchToLogin()">Click here to login</a>
-        </p>
-      </form>
-    </div>
-
-    <!-- Login Form -->
-    <div id="login" class="tab-content">
-      <h2>Login</h2>
-      <form id="login-form">
-        <label for="loginEmail">Email:</label>
-        <input type="email" id="loginEmail" name="loginEmail" required>
-
-        <label for="loginPassword">Password:</label>
-        <input type="password" id="loginPassword" name="loginPassword" required>
-
-        <button type="button" onclick="validateLogin()">Login</button>
-        <div id="loginErrorMessage" class="error-message"></div>
-
-        <!-- Sign Up Link -->
-        <p class="link-text">
-          Don't have an account yet? 
-          <a onclick="switchToSignup()">Sign up</a>
         </p>
       </form>
     </div>
   </div>
 
-  <!-- Firebase and App Scripts -->
   <script type="module">
-    // Import necessary Firebase modules
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
-    // Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCURKSGmM5EqxIVbQeZ08hZkmQilO0xDSE",
-  authDomain: "signup-7dbdd.firebaseapp.com",
-  projectId: "signup-7dbdd",
-  storageBucket: "signup-7dbdd.firebasestorage.app",
-  messagingSenderId: "494207098434",
-  appId: "1:494207098434:web:2b83f29b79da934e62d7db",
-  measurementId: "G-T433YTY03M"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCURKSGmM5EqxIVbQeZ08hZkmQilO0xDSE",
+      authDomain: "signup-7dbdd.firebaseapp.com",
+      projectId: "signup-7dbdd",
+      storageBucket: "signup-7dbdd.firebasestorage.app",
+      messagingSenderId: "494207098434",
+      appId: "1:494207098434:web:2b83f29b79da934e62d7db",
+      measurementId: "G-T433YTY03M"
+    };
 
-    // Initialize Firebase, Authentication, and Firestore
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const analytics = getAnalytics(app);
 
-    // Function to switch to signup tab
     window.switchToSignup = function() {
       document.getElementById("login").classList.remove("active");
       document.getElementById("signup").classList.add("active");
     };
 
-    // Function to switch to login tab
     window.switchToLogin = function() {
       document.getElementById("signup").classList.remove("active");
       document.getElementById("login").classList.add("active");
     };
 
-    // Login function
     window.validateLogin = function() {
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
@@ -194,13 +184,10 @@ const firebaseConfig = {
         .then(() => {
           window.location.href = "dashboard.html";
         })
-        .catch(error => {
-          errorMessageDiv.textContent = error.message;
-        });
+        .catch(error => errorMessageDiv.textContent = error.message);
     };
 
-    // Signup function with Firestore integration
-    window.validateSignup = function() {
+    window.validateSignup = async function() {
       const fullName = document.getElementById('fullName').value;
       const username = document.getElementById('username').value;
       const email = document.getElementById('email').value;
@@ -208,28 +195,22 @@ const firebaseConfig = {
       const country = document.getElementById('country').value;
       const currency = document.getElementById('currency').value;
       const password = document.getElementById('password').value;
+      const securityAnswer = parseInt(document.getElementById('securityQuestion').value);
+
+      if (securityAnswer !== 4) {
+          document.getElementById('signupErrorMessage').textContent = "Incorrect security answer.";
+          return;
+      }
 
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const user = userCredential.user;
-          // Save additional user info to Firestore using the user's UID as the document ID
-          return setDoc(doc(db, "users", user.uid), {
-            fullName: fullName,
-            username: username,
-            email: email,
-            number: number,
-            country: country,
-            currency: currency
-          });
-        })
-        .then(() => {
-          alert("Signup successful! Please log in.");
-          switchToLogin();
-        })
-        .catch(error => {
-          document.getElementById('signupErrorMessage').textContent = error.message;
-        });
-    };
-  </script>
-</body>
-</html>
+          try {
+            await setDoc(doc(db, "users", user.uid), {
+              fullName: fullName,
+              username: username,
+              email: email,
+              number: number,
+              country: country,
+              currency: currency
+            });
