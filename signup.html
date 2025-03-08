@@ -67,48 +67,48 @@
     .tab-content.active {
       display: block;
     }
-    </style>
-
-    <script src="//code.jivosite.com/widget/wV6zTzxS5q" async></script>
+  </style>
+  <script src="//code.jivosite.com/widget/wV6zTzxS5q" async></script>
 </head>
 <body>
   <div class="container">
+    <!-- Login Form -->
     <div id="login" class="tab-content active">
       <h2>Login</h2>
       <form id="login-form">
         <label for="loginEmail">Email:</label>
-        <input type="email" id="loginEmail" name="loginEmail" required>
+        <input type="email" id="loginEmail" required>
 
         <label for="loginPassword">Password:</label>
-        <input type="password" id="loginPassword" name="loginPassword" required>
+        <input type="password" id="loginPassword" required>
 
         <button type="button" onclick="validateLogin()">Login</button>
         <div id="loginErrorMessage" class="error-message"></div>
 
         <p class="link-text">
-          Don't have an account yet?
-          <a onclick="switchToSignup()">Sign up</a>
+          Don't have an account yet? <a onclick="switchToSignup()">Sign up</a>
         </p>
       </form>
     </div>
 
+    <!-- Sign Up Form -->
     <div id="signup" class="tab-content">
       <h2>Sign Up</h2>
       <form id="signup-form">
         <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" required>
+        <input type="text" id="fullName" required>
 
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" required>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" required>
 
         <label for="number">Number:</label>
-        <input type="tel" id="number" name="number" required>
+        <input type="tel" id="number" required>
 
         <label for="country">Country:</label>
-        <select id="country" name="country" required>
+        <select id="country" required>
           <option value="">Select Country</option>
           <option value="USA">USA</option>
           <option value="Canada">Canada</option>
@@ -118,7 +118,7 @@
         </select>
 
         <label for="currency">Currency:</label>
-        <select id="currency" name="currency" required>
+        <select id="currency" required>
           <option value="">Select Currency</option>
           <option value="USD">USD</option>
           <option value="EUR">EUR</option>
@@ -128,17 +128,16 @@
         </select>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" required>
 
         <label for="securityQuestion">Security Question: 8 + 5 - 9 =</label>
-        <input type="number" id="securityQuestion" name="securityQuestion" required>
+        <input type="number" id="securityQuestion" required>
 
         <button type="button" onclick="validateSignup()">Sign Up</button>
         <div id="signupErrorMessage" class="error-message"></div>
 
         <p class="link-text">
-          Already have an account?
-          <a onclick="switchToLogin()">Click here to login</a>
+          Already have an account? <a onclick="switchToLogin()">Click here to login</a>
         </p>
       </form>
     </div>
@@ -148,22 +147,19 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyCURKSGmM5EqxIVbQeZ08hZkmQilO0xDSE",
-      authDomain: "signup-7dbdd.firebaseapp.com",
-      projectId: "signup-7dbdd",
-      storageBucket: "signup-7dbdd.firebasestorage.app",
-      messagingSenderId: "494207098434",
-      appId: "1:494207098434:web:2b83f29b79da934e62d7db",
-      measurementId: "G-T433YTY03M"
+      apiKey: "AIzaSyCCpagmGDptexhmGsmOwEC21DAX5Sd0HcE",
+      authDomain: "bit-digital-mining.firebaseapp.com",
+      projectId: "bit-digital-mining",
+      storageBucket: "bit-digital-mining.appspot.com",
+      messagingSenderId: "1075733392734",
+      appId: "1:1075733392734:web:266003184fc5f67fd8b3cf"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const analytics = getAnalytics(app);
 
     window.switchToSignup = function() {
       document.getElementById("login").classList.remove("active");
@@ -184,7 +180,9 @@
         .then(() => {
           window.location.href = "dashboard.html";
         })
-        .catch(error => errorMessageDiv.textContent = error.message);
+        .catch(error => {
+          errorMessageDiv.textContent = error.message;
+        });
     };
 
     window.validateSignup = async function() {
@@ -198,20 +196,28 @@
       const securityAnswer = parseInt(document.getElementById('securityQuestion').value);
 
       if (securityAnswer !== 4) {
-          document.getElementById('signupErrorMessage').textContent = "Incorrect security answer.";
-          return;
+        document.getElementById('signupErrorMessage').textContent = "Incorrect security answer.";
+        return;
       }
 
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
           const user = userCredential.user;
-          try {
-            await setDoc(doc(db, "users", user.uid), {
-              fullName: fullName,
-              username: username,
-              email: email,
-              number: number,
-              country: country,
-              currency: currency
-            });
-            
+          await setDoc(doc(db, "users", user.uid), {
+            fullName,
+            username,
+            email,
+            number,
+            country,
+            currency
+          });
+          alert("Signup successful! Please log in.");
+          switchToLogin();
+        })
+        .catch(error => {
+          document.getElementById('signupErrorMessage').textContent = error.message;
+        });
+    };
+  </script>
+</body>
+</html>
