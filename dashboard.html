@@ -7,11 +7,7 @@
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-  <!-- Dashboard content here -->
-  
-  <script src="dashboard.js"></script>
-</body>
-</html>
+
   <div class="container">
 
     <div class="header">
@@ -24,7 +20,7 @@
       <div class="profile">
         <img src="usdt-icon.png" alt="•" class="profile-img">
         <div class="profile-info">
-          <p class="username">User: Roman Raman</p>
+          <p class="username">User: <span id="username">Loading...</span></p>
           <p class="limit"><span class="highlight"></span></p>
           <p class="limit"><span class="highlight"></span></p>
         </div>
@@ -34,7 +30,7 @@
 
     <div class="balance-actions">
       <div class="balance-card">
-        <p class="balance-title"><span class="highlight">INR 69,000.00</span> 
+        <p class="balance-title"><span class="highlight">INR 69,000.00</span></p> 
         <p class="balance-subtitle"></p>
       </div>
       <div class="transaction-card">
@@ -44,21 +40,21 @@
       </div>
     </div>
 
+  </div>
 
   <!-- Firebase and App Scripts -->
   <script type="module">
-    // Import Firebase modules from the CDN
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // Your Firebase configuration (replace with your actual config)
+    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDVzBsLYYjQDHPO6GXelLV9pIOu-nmzqnY",
       authDomain: "earn-money-online-9f77b.firebaseapp.com",
       databaseURL: "https://earn-money-online-9f77b-default-rtdb.firebaseio.com",
       projectId: "earn-money-online-9f77b",
-      storageBucket: "earn-money-online-9f77b.firebasestorage.app",
+      storageBucket: "earn-money-online-9f77b.appspot.com",
       messagingSenderId: "119190206068",
       appId: "1:119190206068:web:20c136c3c972039eacc321",
       measurementId: "G-W6B3H6TQ8V"
@@ -70,29 +66,30 @@
     const db = getFirestore(app);
 
     // Listen for auth state changes
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // User is signed in; fetch user data from Firestore
-        const userDocRef = doc(db, "users", user.uid);
-        getDoc(userDocRef)
-          .then(docSnapshot => {
-            if (docSnapshot.exists()) {
-              const userData = docSnapshot.data();
-              // Update welcome messages with the user's full name
-              document.querySelector(".welcome").innerHTML = "Welcome to <strong>" + userData.fullName + "</strong>";
-              document.querySelector(".profile-info .username").textContent = "Hello " + userData.fullName;
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching user data:", error);
-          });
+        try {
+          const userDocRef = doc(db, "users", user.uid);
+          const docSnapshot = await getDoc(userDocRef);
+
+          if (docSnapshot.exists()) {
+            const userData = docSnapshot.data();
+            // Update welcome message and username display
+            document.querySelector(".welcome").innerHTML = `Welcome to <strong>Bit-Digital Mining</strong>, <strong>${userData.fullName}</strong>`;
+            document.getElementById("username").textContent = userData.fullName;
+          } else {
+            console.log("User document not found in Firestore.");
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
       } else {
-        // If not signed in, redirect to login page
+        // Redirect to login if not signed in
         window.location.href = "login.html";
       }
     });
 
-    // Optional: Define deposit() and withdraw() functions if needed.
+    // Define deposit() and withdraw() functions
     window.deposit = function() {
       alert("Deposit function not implemented.");
     };
