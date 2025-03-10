@@ -187,6 +187,22 @@
       // Proceed to live support confirmation
       alert("Please contact live support to complete your withdrawal.");
     });
+<script>
+document.getElementById("confirmBankDetails").addEventListener("click", function () {
+    document.getElementById("withdrawalSection").style.display = "none";
+    document.getElementById("amountSection").style.display = "block";
+});
+
+document.getElementById("confirmWithdraw").addEventListener("click", function () {
+    const amount = parseFloat(document.getElementById("withdrawAmount").value);
+    const availableBalance = 69000; // Replace this with dynamic balance from Firebase
+
+    if (amount > availableBalance) {
+        document.getElementById("withdrawalErrorMessage").textContent = "Error: Insufficient balance!";
+    } else {
+        alert("Please contact live support for withdrawal.");
+    }
+});
   </script>
 </body>
 </html>
