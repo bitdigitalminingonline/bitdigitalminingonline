@@ -150,8 +150,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+    
 
     const firebaseConfig = {
       apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
@@ -166,8 +165,6 @@ import { getAnalytics } from "firebase/analytics";
     const auth = getAuth(app);
     const db = getFirestore(app);
     
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
     window.switchToSignup = function() {
       document.getElementById("login").classList.remove("active");
