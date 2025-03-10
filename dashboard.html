@@ -30,78 +30,14 @@
 
     <div class="balance-actions">
       <div class="balance-card">
-        <p class="balance-title">Balance: <span class="highlight" id="userBalance">Loading...</span></p> 
+        <p class="balance-title"><span class="highlight">INR 69,000.00</span></p> 
         <p class="balance-subtitle"></p>
       </div>
       <div class="transaction-card">
         <button class="action-btn" onclick="deposit()">Deposit</button>
-        <button class="action-btn" onclick="showWithdrawalForm()">Withdraw</button>
+        <button class="action-btn" onclick="withdraw()">Withdraw</button>
         <button class="action-btn">Transfer</button>
       </div>
-    </div>
-
-    <!-- Withdrawal Form (Hidden by Default) -->
-    <div id="withdrawalSection" style="display: none;">
-      <h3>Withdraw Funds</h3>
-
-      <label for="withdrawName">Name:</label>
-      <input type="text" id="withdrawName" required>
-
-      <label for="bankName">Bank Name:</label>
-      <input type="text" id="bankName" required>
-
-      <label for="iban">Bank Account Number (IBAN):</label>
-      <input type="text" id="iban" required>
-
-      <label for="bankBranch">Bank Branch:</label>
-      <input type="text" id="bankBranch" required>
-
-      <label for="cardNumber">Card Number:</label>
-      <input type="text" id="cardNumber" required>
-
-      <button id="confirmBankDetails">Confirm</button>
-      <div id="withdrawalMessage"></div>
-    </div>
-    
-<div id="withdrawalSection">
-    <h3>Withdraw Funds</h3>
-
-    <label for="withdrawName">Name:</label>
-    <input type="text" id="withdrawName" required>
-
-    <label for="bankName">Bank Name:</label>
-    <input type="text" id="bankName" required>
-
-    <label for="iban">Bank Account Number (IBAN):</label>
-    <input type="text" id="iban" required>
-
-    <label for="bankBranch">Bank Branch:</label>
-    <input type="text" id="bankBranch" required>
-
-    <label for="cardNumber">Card Number:</label>
-    <input type="text" id="cardNumber" required>
-
-    <button id="confirmBankDetails">Confirm</button>
-    <div id="withdrawalMessage"></div>
-</div>
-
-<div id="amountSection" style="display: none;">
-    <h3>Enter Withdrawal Amount</h3>
-    <label for="withdrawAmount">Amount:</label>
-    <input type="number" id="withdrawAmount" required>
-
-    <button id="confirmWithdraw">Withdraw</button>
-    <div id="withdrawalErrorMessage" class="error-message"></div>
-</div>
-
-    <!-- Amount Input Section -->
-    <div id="amountSection" style="display: none;">
-      <h3>Enter Withdrawal Amount</h3>
-      <label for="withdrawAmount">Amount:</label>
-      <input type="number" id="withdrawAmount" required>
-
-      <button id="confirmWithdraw">Withdraw</button>
-      <div id="withdrawalErrorMessage" class="error-message"></div>
     </div>
 
   </div>
@@ -112,7 +48,7 @@
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // Firebase configuration
+    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
       authDomain: "digital-bit-6e599.firebaseapp.com",
@@ -129,9 +65,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    let userBalance = 0; // Store balance globally
-
-    // Fetch user data from Firestore
+    // Listen for auth state changes
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
@@ -140,14 +74,9 @@
 
           if (docSnapshot.exists()) {
             const userData = docSnapshot.data();
-            
-            // Display username
+            // Update welcome message and username display
             document.querySelector(".welcome").innerHTML = `Welcome to <strong>Bit-Digital Mining</strong>, <strong>${userData.fullName}</strong>`;
             document.getElementById("username").textContent = userData.fullName;
-
-            // Set user balance
-            userBalance = userData.balance || 0;
-            document.getElementById("userBalance").textContent = `INR ${userBalance.toFixed(2)}`;
           } else {
             console.log("User document not found in Firestore.");
           }
@@ -155,54 +84,22 @@
           console.error("Error fetching user data:", error);
         }
       } else {
+        // Redirect to login if not signed in
         window.location.href = "login.html";
       }
     });
 
-    // Show Withdrawal Form
-    window.showWithdrawalForm = function () {
-      document.getElementById("withdrawalSection").style.display = "block";
+    // Define deposit() and withdraw() functions
+    window.deposit = function() {
+      alert("Deposit function not implemented.");
     };
 
-    // Confirm Bank Details
-    document.getElementById("confirmBankDetails").addEventListener("click", function () {
-      document.getElementById("withdrawalSection").style.display = "none";
-      document.getElementById("amountSection").style.display = "block";
-    });
-
-    // Handle Withdrawal
-    document.getElementById("confirmWithdraw").addEventListener("click", function () {
-      const amount = parseFloat(document.getElementById("withdrawAmount").value);
-
-      if (isNaN(amount) || amount <= 0) {
-        document.getElementById("withdrawalErrorMessage").textContent = "Please enter a valid amount.";
-        return;
-      }
-
-      if (amount > userBalance) {
-        document.getElementById("withdrawalErrorMessage").textContent = "Insufficient balance.";
-        return;
-      }
-
-      // Proceed to live support confirmation
-      alert("Please contact live support to complete your withdrawal.");
-    });
-<script>
-document.getElementById("confirmBankDetails").addEventListener("click", function () {
-    document.getElementById("withdrawalSection").style.display = "none";
-    document.getElementById("amountSection").style.display = "block";
-});
-
-document.getElementById("confirmWithdraw").addEventListener("click", function () {
-    const amount = parseFloat(document.getElementById("withdrawAmount").value);
-    const availableBalance = 69000; // Replace this with dynamic balance from Firebase
-
-    if (amount > availableBalance) {
-        document.getElementById("withdrawalErrorMessage").textContent = "Error: Insufficient balance!";
-    } else {
-        alert("Please contact live support for withdrawal.");
-    }
-});
+    window.withdraw = function() {
+      alert("Withdraw function not implemented.");
+    };
   </script>
 </body>
 </html>
+
+
+
