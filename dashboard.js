@@ -131,12 +131,12 @@ import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10
 
 // Firebase Configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
+  authDomain: "digital-bit-6e599.firebaseapp.com",
+  projectId: "digital-bit-6e599",
+  storageBucket: "digital-bit-6e599.firebasestorage.app",
+  messagingSenderId: "261463383888",
+  appId: "1:261463383888:web:c5cf8991d02645e6fb5655"
 };
 
 // Initialize Firebase
