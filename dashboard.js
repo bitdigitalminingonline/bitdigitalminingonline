@@ -1,29 +1,45 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadUser(); // Load user data from local storage
-    updateBalance();
+    checkLogin();
 });
+
+function checkLogin() {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            // User is signed in.
+            loadUserData(user.uid);
+        } else {
+            // User is signed out.
+            // Redirect to login page or display a message
+            window.location.href = "login.html"; // Replace with your login page URL
+        }
+    });
+}
+
+function loadUserData(uid) {
+    const userDocRef = firebase.firestore().collection('users').doc(uid);
+
+    userDocRef.onSnapshot(doc => {
+        if (doc.exists) {
+            const userData = doc.data();
+            user = userData;
+            updateBalance();
+        } else {
+            // User document doesn't exist, create it
+            userDocRef.set({ balance: 0 });
+        }
+    });
+}
 
 let user = {
     balance: 0
 };
 
-function loadUser() {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-        user = JSON.parse(storedUser);
-    }
-}
-
-function saveUser() {
-    localStorage.setItem('user', JSON.stringify(user));
-}
-
 function deposit() {
     let amount = prompt("Enter amount to deposit:");
     if (amount && !isNaN(amount) && amount > 0) {
         user.balance += parseFloat(amount);
-        saveUser();
         updateBalance();
+        updateFirestoreBalance();
     } else {
         alert("Invalid amount");
     }
@@ -33,8 +49,8 @@ function withdraw() {
     let amount = prompt("Enter amount to withdraw:");
     if (amount && !isNaN(amount) && amount > 0 && amount <= user.balance) {
         user.balance -= parseFloat(amount);
-        saveUser();
         updateBalance();
+        updateFirestoreBalance();
     } else {
         alert("Invalid amount or insufficient balance");
     }
@@ -43,121 +59,12 @@ function withdraw() {
 function updateBalance() {
     document.getElementById("usd-value").innerText = user.balance;
 }
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const auth = getAuth();
-const db = getFirestore();
-
-let userBalance = 0; // Store user's balance
-
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const userDocRef = doc(db, "users", user.uid);
-    const userDocSnap = await getDoc(userDocRef);
-
-    if (userDocSnap.exists()) {
-      const userData = userDocSnap.data();
-      userBalance = userData.balance; // Store balance for validation
-      document.getElementById("userBalance").textContent = `$${userData.balance}`;
+function updateFirestoreBalance() {
+    const user = firebase.auth().currentUser;
+    if (user) {
+        firebase.firestore().collection('users').doc(user.uid).update({
+            balance: user.balance
+        });
     }
-  }
-});
-
-// Step 1: Confirm Bank Details
-document.getElementById("confirmBankDetails").addEventListener("click", function() {
-  const name = document.getElementById("withdrawName").value;
-  const bankName = document.getElementById("bankName").value;
-  const iban = document.getElementById("iban").value;
-  const bankBranch = document.getElementById("bankBranch").value;
-  const cardNumber = document.getElementById("cardNumber").value;
-
-  if (!name || !bankName || !iban || !bankBranch || !cardNumber) {
-    document.getElementById("withdrawalMessage").textContent = "Please fill all details!";
-    return;
-  }
-
-  // Hide bank details section, show amount section
-  document.getElementById("withdrawalSection").style.display = "none";
-  document.getElementById("amountSection").style.display = "block";
-});
-
-// Step 2: Confirm Withdrawal Amount
-document.getElementById("confirmWithdraw").addEventListener("click", async function() {
-  const withdrawAmount = parseFloat(document.getElementById("withdrawAmount").value);
-  const errorDiv = document.getElementById("withdrawalErrorMessage");
-
-  if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
-    errorDiv.textContent = "Invalid amount. Enter a valid number.";
-    return;
-  }
-
-  if (withdrawAmount > userBalance) {
-    errorDiv.textContent = "Insufficient balance!";
-    return;
-  }
-
-  try {
-    const user = auth.currentUser;
-
-    // Reduce user's balance
-    const userDocRef = doc(db, "users", user.uid);
-    await updateDoc(userDocRef, {
-      balance: userBalance - withdrawAmount
-    });
-
-    // Store withdrawal request for admin review
-    await addDoc(collection(db, "withdrawalRequests"), {
-      userId: user.uid,
-      amount: withdrawAmount,
-      status: "Pending",
-      requestedAt: new Date().toISOString()
-    });
-
-    errorDiv.style.color = "green";
-    errorDiv.textContent = "Withdrawal request submitted! Contact live support.";
-
-    // Optional: Redirect to live support
-    setTimeout(() => {
-      window.location.href = "https://t.me/support_chat"; // Change this to your support link
-    }, 3000);
-  } catch (error) {
-    errorDiv.textContent = "Error processing withdrawal: " + error.message;
-  }
-});
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-// Firebase Configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
-  authDomain: "digital-bit-6e599.firebaseapp.com",
-  projectId: "digital-bit-6e599",
-  storageBucket: "digital-bit-6e599.firebasestorage.app",
-  messagingSenderId: "261463383888",
-  appId: "1:261463383888:web:c5cf8991d02645e6fb5655"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// Check if user is logged in
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    // Get user details from Firestore
-    const userDocRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(userDocRef);
-
-    if (docSnap.exists()) {
-      const userData = docSnap.data();
-      document.querySelector(".username").textContent = "Hello, " + userData.fullName; // Set full name
-    } else {
-      console.log("User document not found in Firestore.");
-    }
-  } else {
-    window.location.href = "sigup.html"; // Redirect to login if not authenticated
-  }
-});
+}
