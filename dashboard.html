@@ -1,55 +1,174 @@
-<script>
-    // Initialize Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
-        authDomain: "digital-bit-6e599.firebaseapp.com",
-        projectId: "digital-bit-6e599",
-        storageBucket: "digital-bit-6e599.appspot.com",  // FIXED
-        messagingSenderId: "261463383888",
-        appId: "1:261463383888:web:c5cf8991d02645e6fb5655"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bit-Digital Mining</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .header {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+        }
+        .user-info {
+            background: #333;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        .user-info img {
+            width: 40px;
+            vertical-align: middle;
+        }
+        .balance-section {
+            background: #444;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+        .balance {
+            font-size: 24px;
+            font-weight: bold;
+            color: yellow;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        .button {
+            display: block;
+            width: 80%;
+            margin: 5px auto;
+            padding: 10px;
+            background: gray;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .other-services {
+            margin-top: 20px;
+        }
+        .service-button {
+            display: inline-block;
+            width: 45%;
+            margin: 5px;
+            padding: 10px;
+            background: gray;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 
-    // Get the current user ID from Firebase Authentication
-    firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-            const userId = user.uid;  // FIXED - Get actual user ID
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
 
-            // Fetch username
-            db.collection("users").doc(userId).get().then((doc) => {
-                if (doc.exists) {
-                    document.getElementById("username").innerText = doc.data().username;
+    <!-- JivoSite Live Chat -->
+    <script src="//code.jivosite.com/widget/wV6zTzxS5q" async></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
+            authDomain: "digital-bit-6e599.firebaseapp.com",
+            projectId: "digital-bit-6e599",
+            storageBucket: "digital-bit-6e599.appspot.com",
+            messagingSenderId: "261463383888",
+            appId: "1:261463383888:web:c5cf8991d02645e6fb5655"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // Function to update username from auth
+        function updateUsername() {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    document.getElementById("username").innerText = user.displayName || "User";
+                    listenForBalanceUpdates(user.uid); // ✅ Fetch balance only after user logs in
                 } else {
-                    console.log("User not found!");
+                    console.log("No user logged in.");
                 }
-            }).catch((error) => {
-                console.error("Error fetching user data:", error);
             });
+        }
 
-            // Listen for balance updates
+        // Function to listen for real-time balance updates (admin updates this)
+        function listenForBalanceUpdates(userId) {
             db.collection("users").doc(userId).onSnapshot((doc) => {
                 if (doc.exists) {
                     const balance = doc.data().balance || 0;
                     document.getElementById("balance").innerText = `INR ${balance.toLocaleString()}`;
                 } else {
-                    console.log("User not found!");
+                    console.log("Balance data not found!");
                 }
             }, (error) => {
                 console.error("Error listening for balance updates:", error);
             });
-        } else {
-            console.log("No user logged in.");
         }
-    });
 
-    // Open Live Chat when any button is clicked
-    function openLiveChat() {
-        if (window.jivo_api) {
-            jivo_api.open();
-        } else {
-            alert("Live Chat is loading, please try again in a few seconds.");
+        // Open Live Chat
+        function openLiveChat() {
+            if (window.jivo_api) {
+                jivo_api.open();
+            } else {
+                alert("Live Chat is loading, please try again in a few seconds.");
+            }
         }
-    }
-</script>
+
+        // Initialize username update on page load
+        window.onload = updateUsername;
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">Welcome to <b>Bit-Digital Mining</b></div>
+        
+        <div class="user-info">
+            <img src="https://cryptologos.cc/logos/tether-usdt-logo.png" alt="Tether" />
+            <b>Hello, <span id="username">User</span></b>
+        </div>
+
+        <div class="balance-section">
+            <div class="balance" id="balance">INR 00</div>
+            <div>Balance</div>
+            <div class="buttons">
+                <button class="button" onclick="openLiveChat()">Deposit</button>
+                <button class="button" onclick="openLiveChat()">Withdraw</button>
+                <button class="button" onclick="openLiveChat()">Transfer</button>
+            </div>
+        </div>
+
+        <div class="other-services">
+            <div><b>Other Services</b></div>
+            <button class="service-button" onclick="openLiveChat()">Financing</button>
+            <button class="service-button" onclick="openLiveChat()">Wallet</button>
+            <button class="service-button" onclick="openLiveChat()">Security</button>
+            <button class="service-button" onclick="openLiveChat()">Questions</button>
+        </div>
+    </div>
+
+</body>
+</html>
