@@ -1,62 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Finance Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
-</head>
-<body>
-</style>
-    <div class="container">
+<script>
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
+        authDomain: "digital-bit-6e599.firebaseapp.com",
+        projectId: "digital-bit-6e599",
+        storageBucket: "digital-bit-6e599.appspot.com",  // FIXED
+        messagingSenderId: "261463383888",
+        appId: "1:261463383888:web:c5cf8991d02645e6fb5655"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-        <!-- Header -->
-        <div class="header">
-            <p class="message"></p>
-            <p class="welcome">Welcome to <strong>Bit-Digital Mining</strong></p>
-            <p class="more"></p>
-        </div>
+    // Get the current user ID from Firebase Authentication
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            const userId = user.uid;  // FIXED - Get actual user ID
 
-        <!-- Profile Section -->
-        <div class="profile-section">
-            <div class="profile">
-                <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9529.png?raw=true" alt="USDT Logo" class="profile-img">
-                <div class="profile-info">
-                    <p class="username" id="username">Hello, User</p> <!-- Placeholder for Name -->
-                    <p class="limit"><span class="highlight"></span></p>
-                    <p class="limit"><span class="highlight"></span></p>
-                </div>
-            </div>
-        </div>
+            // Fetch username
+            db.collection("users").doc(userId).get().then((doc) => {
+                if (doc.exists) {
+                    document.getElementById("username").innerText = doc.data().username;
+                } else {
+                    console.log("User not found!");
+                }
+            }).catch((error) => {
+                console.error("Error fetching user data:", error);
+            });
 
-        <!-- Balance & Actions -->
-        <div class="balance-actions">
-            <div class="balance-card">
-                <p class="balance-title"><span class="highlight">INR</span> <span id="usd-value"></span>70,000</p>
-                <p class="balance-subtitle">Balance</p>
-            </div>
-            <div class="transaction-card">
-                <button class="action-btn">Deposit</button>
-                <button class="action-btn">Withdraw</button>
-                <button class="action-btn">Transfer</button>
-            </div>
-        </div>
+            // Listen for balance updates
+            db.collection("users").doc(userId).onSnapshot((doc) => {
+                if (doc.exists) {
+                    const balance = doc.data().balance || 0;
+                    document.getElementById("balance").innerText = `INR ${balance.toLocaleString()}`;
+                } else {
+                    console.log("User not found!");
+                }
+            }, (error) => {
+                console.error("Error listening for balance updates:", error);
+            });
+        } else {
+            console.log("No user logged in.");
+        }
+    });
 
-        <!-- Other Services -->
-        <div class="services">
-            <h3 class="services-title">Other Services</h3>
-            <div class="service-buttons">
-                <button class="service-btn">Financing</button>
-                <button class="service-btn">Wallet</button>
-                <button class="service-btn">Security</button>
-                <button class="service-btn">Questions</button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Link to JavaScript file -->
-    <script type="module" src="assets/dashboard.js"></script>
-
-</body>
-</html>
+    // Open Live Chat when any button is clicked
+    function openLiveChat() {
+        if (window.jivo_api) {
+            jivo_api.open();
+        } else {
+            alert("Live Chat is loading, please try again in a few seconds.");
+        }
+    }
+</script>
