@@ -1,105 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crypto Finance Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Finance Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
+    <div class="container">
 
-    <div class="header">
-      <p class="message"></p>
-      <p class="welcome">Welcome to <strong>Bit-Digital Mining</strong></p>
-      <p class="more"></p>
-    </div>
-
-    <div class="profile-section">
-      <div class="profile">
-        <img src="usdt-icon.png" alt="•" class="profile-img">
-        <div class="profile-info">
-          <p class="username">User: <span id="username">Loading...</span></p>
-          <p class="limit"><span class="highlight"></span></p>
-          <p class="limit"><span class="highlight"></span></p>
+        <!-- Header -->
+        <div class="header">
+            <p class="message"></p>
+            <p class="welcome">Welcome to <strong>Bit-Digital Mining</strong></p>
+            <p class="more"> </p>
         </div>
-      </div>
-      <button class="vip-upgrade"></button>
+
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="profile">
+                <img src="usdt-icon.png" alt="USDT Logo" class="profile-img">
+                <div class="profile-info">
+                    <p class="username" id="username">Hello, User</p> <!-- Placeholder for Name -->
+                    <p class="limit"><span class="highlight"></span></p>
+                    <p class="limit"><span class="highlight"></span></p>
+                </div>
+            </div>
+            <button class="vip-upgrade">VIP Upgrade</button>
+        </div>
+
+        <!-- Balance & Actions -->
+        <div class="balance-actions">
+            <div class="balance-card">
+                <p class="balance-title"><span class="highlight">0 USDT</span> = $<span id="usd-value">0</span></p>
+                <p class="balance-subtitle">Balance</p>
+            </div>
+            <div class="transaction-card">
+                <button class="action-btn">Deposit</button>
+                <button class="action-btn">Withdraw</button>
+                <button class="action-btn">Transfer</button>
+            </div>
+        </div>
+
+        <!-- Other Services -->
+        <div class="services">
+            <h3 class="services-title">Other Services</h3>
+            <div class="service-buttons">
+                <button class="service-btn">Financing</button>
+                <button class="service-btn">Wallet</button>
+                <button class="service-btn">Security</button>
+                <button class="service-btn">Questions</button>
+            </div>
+        </div>
+
     </div>
 
-    <div class="balance-actions">
-      <div class="balance-card">
-        <p class="balance-title"><span class="highlight">INR 69,000.00</span></p> 
-        <p class="balance-subtitle"></p>
-      </div>
-      <div class="transaction-card">
-        <button class="action-btn" onclick="deposit()">Deposit</button>
-        <button class="action-btn" onclick="withdraw()">Withdraw</button>
-        <button class="action-btn">Transfer</button>
-      </div>
-    </div>
+    <!-- Link to JavaScript file -->
+    <script type="module" src="assets/dashboard.js"></script>
 
-  </div>
-
-  <!-- Firebase and App Scripts -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    // Your Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyA7nRo1nVCaIg75JOpvh1gPy_kQ3_zQjXY",
-      authDomain: "digital-bit-6e599.firebaseapp.com",
-      databaseURL: "https://digital-bit-6e599-default-rtdb.firebaseio.com",
-      projectId: "digital-bit-6e599",
-      storageBucket: "digital-bit-6e599.firebasestorage.app",
-      messagingSenderId: "261463383888",
-      appId: "1:261463383888:web:c5cf8991d02645e6fb5655",
-      measurementId: "G-5D9P2PFKW4"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Listen for auth state changes
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const userDocRef = doc(db, "users", user.uid);
-          const docSnapshot = await getDoc(userDocRef);
-
-          if (docSnapshot.exists()) {
-            const userData = docSnapshot.data();
-            // Update welcome message and username display
-            document.querySelector(".welcome").innerHTML = `Welcome to <strong>Bit-Digital Mining</strong>, <strong>${userData.fullName}</strong>`;
-            document.getElementById("username").textContent = userData.fullName;
-          } else {
-            console.log("User document not found in Firestore.");
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      } else {
-        // Redirect to login if not signed in
-        window.location.href = "login.html";
-      }
-    });
-
-    // Define deposit() and withdraw() functions
-    window.deposit = function() {
-      alert("Deposit function not implemented.");
-    };
-
-    window.withdraw = function() {
-      alert("Withdraw function not implemented.");
-    };
-  </script>
 </body>
 </html>
-
-
-
