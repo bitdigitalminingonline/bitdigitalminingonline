@@ -1,47 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Finance Dashboard</title>
-    
-    <!-- Link to CSS -->
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
+
+        <!-- Header -->
         <div class="header">
             <p class="message"></p>
             <p class="welcome">Welcome to <strong>Bit-Digital Mining</strong></p>
             <p class="more"></p>
         </div>
 
+        <!-- Profile Section -->
         <div class="profile-section">
             <div class="profile">
-                <img src="usdt-icon.png" alt="USDT Logo" class="profile-img">
+                <img src="https://github.com/bitdigitalmining/Imagehosting/blob/main/IMG_9529.png?raw=true" alt="USDT Logo" class="profile-img">
                 <div class="profile-info">
-                    <p class="username" id="username"></p>
+                    <p class="username" id="username">Hello, User</p> <!-- Placeholder for Name -->
                     <p class="limit"><span class="highlight"></span></p>
                     <p class="limit"><span class="highlight"></span></p>
                 </div>
             </div>
-            <button class="vip-upgrade">VIP Upgrade</button>
         </div>
 
+        <!-- Balance & Actions -->
         <div class="balance-actions">
             <div class="balance-card">
-                <p class="balance-title"><span class="highlight">0 USDT</span> = $<span id="usd-value">0</span></p>
+                <p class="balance-title"><span class="highlight">INR</span> <span id="usd-value"></span>70,000</p>
                 <p class="balance-subtitle">Balance</p>
             </div>
             <div class="transaction-card">
-                <button class="action-btn" onclick="deposit()">Deposit</button>
-                <button class="action-btn" onclick="withdraw()">Withdraw</button>
+                <button class="action-btn">Deposit</button>
+                <button class="action-btn">Withdraw</button>
                 <button class="action-btn">Transfer</button>
             </div>
         </div>
 
+        <!-- Other Services -->
         <div class="services">
             <h3 class="services-title">Other Services</h3>
             <div class="service-buttons">
@@ -51,9 +52,10 @@
                 <button class="service-btn">Questions</button>
             </div>
         </div>
+
     </div>
 
-    <!-- Load JavaScript at the END for better performance -->
+    <!-- Link to JavaScript file -->
     <script type="module" src="assets/dashboard.js"></script>
 
 </body>
