@@ -109,3 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // setInterval(fetchCryptoPrices, 60000); // Refresh every 60 seconds
   // setInterval(fetchRevenueData, 60000);
 });
+
+fetch("https://your-backend.onrender.com/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username: "JohnDoe", password: "securepass" })
+}).then(response => response.json())
+  .then(data => console.log(data));
