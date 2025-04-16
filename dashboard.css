@@ -1,0 +1,114 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #000;
+  color: #fff;
+}
+
+.dashboard {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.dashboard-header {
+  background-color: #111c2f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.logout {
+  background-color: #2e3a4f;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.content {
+  margin-top: 1.5rem;
+}
+
+.subtitle {
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.card {
+  background-color: #1e2a3a;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.amount {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.updated {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.available {
+  background-color: #3c5bd1;
+}
+
+.earned {
+  background-color: #2ecc71;
+}
+
+.processed {
+  background-color: #9b59b6;
+}
+
+.activity h3 {
+  margin-bottom: 0.5rem;
+}
+
+.no-activity {
+  color: #ccc;
+}
+
+.note {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.85rem;
+  color: #777;
+}
