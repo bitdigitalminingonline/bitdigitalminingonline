@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Financial Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css"/>
+  <script type="module" src="dashboard.js" defer></script>
+</head>
+<body>
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <div class="logo">Financial <br> Dashboard</div>
+      <div class="user-info">
+        <span>Welcome,</span>
+        <strong id="welcomeUser">...</strong>
+        <button class="logout" id="logoutBtn">Logout</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <h2>Your Financial Overview</h2>
+      <p class="subtitle">View your current financial status</p>
+
+      <div class="card">
+        <div class="card-header">
+          <span>Balance</span>
+          <span class="badge available">Available</span>
+        </div>
+        <p class="amount" id="balanceAmount">$0</p>
+        <p class="updated" id="balanceUpdated">Loading...</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span>Bonus</span>
+          <span class="badge earned">Earned</span>
+        </div>
+        <p class="amount" id="bonusAmount">$0</p>
+        <p class="updated" id="bonusUpdated">Loading...</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span>Completed Withdrawals</span>
+          <span class="badge processed">Processed</span>
+        </div>
+        <p class="amount" id="withdrawalAmount">$0</p>
+        <p class="updated" id="withdrawalUpdated">Loading...</p>
+      </div>
+
+      <div class="card activity">
+        <h3>Recent Activity</h3>
+        <ul id="activityLog"></ul>
+        <p class="note">Activity updates automatically after admin actions</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      © 2025 Financial Dashboard. All rights reserved.
+    </footer>
+  </div>
+</body>
+</html>
