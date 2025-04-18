@@ -25,9 +25,9 @@ const userRef = doc(db, "users", uid);
 onSnapshot(userRef, (docSnap) => {
   if (docSnap.exists()) {
     const data = docSnap.data();
-    console.log("User Data:", data); // <-- Check what is being retrieved
+    console.log("User Data:", data); // <-- Check if 'currencySymbol' is here
 
-    const symbol = getCurrencySymbol(data.currency);
+    const symbol = data.currencySymbol || "$"; // Use currencySymbol directly, default to '$' if missing
 
     document.getElementById("welcomeUser").textContent = data.username || data.fullName || "User";
     document.getElementById("balanceAmount").textContent = symbol + (data.balance || 0);
@@ -57,14 +57,14 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   });
 });
 
-// Currency symbol helper
-function getCurrencySymbol(currencyCode) {
-  const symbols = {
-    USD: "$",
-    EUR: "€",
-    GBP: "£",
-    AUD: "$",
-    JPY: "¥"
-  };
-  return symbols[currencyCode] || "$";
-}
+// We can remove the getCurrencySymbol function entirely
+// function getCurrencySymbol(currencyCode) {
+//   const symbols = {
+//     USD: "$",
+//     EUR: "€",
+//     GBP: "£",
+//     AUD: "$",
+//     JPY: "¥"
+//   };
+//   return symbols[currencyCode] || "$";
+// }
