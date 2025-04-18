@@ -64,7 +64,8 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
 //     EUR: "€",
 //     GBP: "£",
 //     AUD: "$",
-//     JPY: "¥"
+//     JPY: "¥",
+//     INR: "₹",
 //   };
 //   return symbols[currencyCode] || "$";
 // }
