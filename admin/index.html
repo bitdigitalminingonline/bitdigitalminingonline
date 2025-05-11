@@ -1,1 +1,88 @@
-<h1>Admin Panel Coming Soon</h1>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    input { width: 100%; }
+    button { padding: 5px 10px; }
+  </style>
+</head>
+<body>
+  <h1>Admin Panel - Manage Users</h1>
+  <table id="userTable">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Balance</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // TODO: Replace with your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBoRjw2YOVHIq1uUYJuc-fhEbiP9ykfweI",
+      authDomain: "table-23514.firebaseapp.com",
+      projectId: "table-23514",
+      storageBucket: "table-23514.appspot.com",
+      messagingSenderId: "111280711097",
+      appId: "1:111280711097:web:7a802ed2d3b4a0ce5b4268"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const tableBody = document.querySelector("#userTable tbody");
+
+    function fetchUsers() {
+      db.collection("users").get().then(snapshot => {
+        tableBody.innerHTML = "";
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${doc.id}</td>
+            <td><input value="${data.name || ''}" data-field="name"></td>
+            <td><input value="${data.email || ''}" data-field="email"></td>
+            <td><input value="${data.balance || ''}" data-field="balance"></td>
+            <td><button onclick="updateUser('${doc.id}', this)">Save</button></td>
+          `;
+
+          tableBody.appendChild(row);
+        });
+      });
+    }
+
+    function updateUser(userId, btn) {
+      const row = btn.closest("tr");
+      const inputs = row.querySelectorAll("input");
+
+      const updatedData = {};
+      inputs.forEach(input => {
+        updatedData[input.dataset.field] = input.value;
+      });
+
+      db.collection("users").doc(userId).update(updatedData).then(() => {
+        alert("User updated!");
+      }).catch(error => {
+        alert("Error updating user: " + error.message);
+      });
+    }
+
+    fetchUsers();
+  </script>
+</body>
+</html>
