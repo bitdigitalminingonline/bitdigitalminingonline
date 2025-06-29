@@ -215,3 +215,42 @@ section h2 {
     margin-bottom: 10px;
   }
 }
+
+.footer {
+  background-color: #111;
+  color: #ccc;
+  padding: 40px 20px;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  margin-top: 60px;
+}
+
+.footer p,
+.footer ul {
+  margin-bottom: 15px;
+}
+
+.footer ul {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.footer a {
+  color: #295FFF;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer-top {
+  margin-bottom: 30px;
+}
+
+.footer-bottom {
+  border-top: 1px solid #333;
+  padding-top: 20px;
+  font-size: 0.8rem;
+  text-align: center;
+}
