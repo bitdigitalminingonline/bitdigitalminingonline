@@ -4,9 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bit Digital Mining Online</title>
-  <meta name="facebook-domain-verification" content="oshov9jim9cpz3a07djvsis99xtm79" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/phosphor-icons"></script>
+
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+      padding: 20px;
+    }
+
     /* Button styling */
     .btn {
       display: block;
@@ -19,13 +27,15 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
-    /* Style for coin logos (BTC, ETH, USDT) */
+
+    /* Coin logos */
     .coin-logo {
       width: 40px;
       height: auto;
       vertical-align: middle;
       margin-right: 5px;
     }
+
     /* Slider styles */
     .slider {
       width: 100%;
@@ -42,10 +52,11 @@
       width: 100%;
       flex-shrink: 0;
     }
+
     /* Quotation styles */
     .quotation .coin-item {
       align-items: center;
-      background-color: ##C70039;
+      background-color: #222;
       border-radius: 10px;
       padding: 10px;
       margin-bottom: 5px;
@@ -61,29 +72,126 @@
       font-size: 1.9em;
       color: white;
     }
+
+    /* Revenue table */
+    .header {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .header::before {
+      content: "";
+      width: 4px;
+      height: 40px;
+      background-color: #295FFF;
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .table-container {
+      width: 100%;
+      max-width: 400px;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #111;
+      border: 1px solid #333;
+      padding: 5px;
+      margin: auto;
+      position: relative;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #222;
+      font-weight: bold;
+    }
+
+    tbody {
+      display: block;
+      height: 260px;
+      overflow: hidden;
+    }
+
+    tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    /* Feature section styles */
+    .features-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      max-width: 700px;
+      margin: 40px auto;
+    }
+
+    .feature-card {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(41, 95, 255, 0.2);
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      color: white;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(41, 95, 255, 0.4);
+    }
+
+    .feature-card .icon {
+      font-size: 48px;
+      color: #295FFF;
+      margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+      margin: 10px 0;
+      color: white;
+    }
+
+    .feature-card p {
+      color: #d0d0d0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
   </style>
 
-<!-- Start of Tawk.to Script -->
-<script type="text/javascript">
-  var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-  (function() {
-    var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-    s1.async = true;
-    s1.src = 'https://embed.tawk.to/67d987edb54815190f42aab9/default';
-    s1.charset = 'UTF-8';
-    s1.setAttribute('crossorigin', '*');
-    s0.parentNode.insertBefore(s1, s0);
-  })();
-</script>
-<!-- End of Tawk.to Script -->
-
+  <!-- Tawk.to Chat -->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function() {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/67d987edb54815190f42aab9/default';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  </script>
 </head>
+
 <body>
 
   <header class="top-bar">
     <h1>Bit Digital Mining Online</h1>
-  
-    </div>
   </header>
 
   <section class="slider">
@@ -101,30 +209,26 @@
     <div class="financing-cards" id="financing-cards">
       <div class="financing-card">
         <div class="financing-card-title">
-          <img src="https://i.postimg.cc/JnKfKkHS/IMG-9529.png?raw=true"
-               alt="USDT Logo" class="coin-logo">
+          <img src="https://i.postimg.cc/JnKfKkHS/IMG-9529.png?raw=true" alt="USDT Logo" class="coin-logo">
           USDT <span>120days</span>
         </div>
         <div class="financing-card-yield">63.5%<br><span>yield</span></div>
       </div>
       <div class="financing-card">
         <div class="financing-card-title">
-          <img src="https://i.postimg.cc/JnKfKkHS/IMG-9529.png?raw=true"
-               alt="USDT Logo" class="coin-logo">
+          <img src="https://i.postimg.cc/JnKfKkHS/IMG-9529.png?raw=true" alt="USDT Logo" class="coin-logo">
           USDT <span>90days</span>
         </div>
         <div class="financing-card-yield">52.8%<br><span>yield</span></div>
       </div>
       <div class="financing-card">
         <div class="financing-card-title">
-          <img src="https://i.postimg.cc/JnKfKkHS/IMG-9529.png?raw=true"
-               alt="USDT Logo" class="coin-logo">
+          <img src="https://i.postimg.cc/JnKfKkHS/IMG-9529.png?raw=true" alt="USDT Logo" class="coin-logo">
           USDT <span>60days</span>
         </div>
         <div class="financing-card-yield">30.6%<br><span>yield</span></div>
       </div>
     </div>
-    <a href="#" class="more-link"></a>
   </section>
 
   <section class="quotation">
@@ -157,104 +261,6 @@
     </ul>
   </section>
 
-<script>
-    // Slider script ()
-    const sliderWrapper = document.getElementById('slider-wrapper');
-    const images = sliderWrapper.querySelectorAll('.slider-image');
-    let counter = 0;
-    const slideWidth = images[0].clientWidth;
-
-    function slide() {
-      sliderWrapper.style.transform = `translateX(${-slideWidth * counter}px)`;
-    }
-
-
-        sliderWrapper.style.transition = 'none'; // Disable transition for instant reset
-        sliderWrapper.style.transform = `translateX(0px)`; // Reset to the first image
-        setTimeout(() => {
-          sliderWrapper.style.transition = 'transform 0.5s ease-in-out'; // Re-enable transition
-          counter = 1;
-          slide();
-        }, 50); // Small delay to allow reset before transition
-      } else {
-        slide();
-      }
-    }
-
-    setInterval(nextSlide, 3000); // Change slide every 3 seconds
-  </script>
-    <title>Live Revenue Table</title>
-    <style>
-        <body> 
-
-{
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: white;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .header::before {
-            content: "";
-            width: 4px;
-            height: 40px;
-            background-color: red; /* Blue line */
-            display: inline-block;
-            margin-right: 8px;
-        }
-
-        .table-container {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
-            overflow: hidden;
-            border-radius: 10px;
-            background: #111;
-            border: 1px solid #333;
-            padding: 5px;
-            margin: auto;
-            position: relative;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        th {
-            background: #222;
-            font-weight: bold;
-        }
-
-        tbody {
-            display: block;
-            height: 260px;
-            overflow: hidden;
-        }
-
-        tr {
-            display: table;
-            width: 100%;
-            table-layout: fixed;
-        }
-    </style>
-</head>
-<body>
-
   <section class="revenue">
     <h2>Revenue</h2>
     <table>
@@ -265,97 +271,91 @@
           <th>date</th>
         </tr>
       </thead>
-      <tbody id="revenueTable">
-                <!-- Data will be inserted here -->
-            </tbody>
-        </table>
+      <tbody id="revenueTable"></tbody>
+    </table>
+  </section>
+
+  <section class="features-container">
+    <div class="feature-card">
+      <i class="ph ph-clipboard-text icon"></i>
+      <h3>Getting Started</h3>
+      <p>Create your account in just a few easy steps by filling in the required information. Fund your account and get started.</p>
     </div>
-    <script>
-        function generateUsername() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            return chars[Math.floor(Math.random() * chars.length)] + "*".repeat(Math.floor(Math.random() * 5) + 3) +
-                   chars[Math.floor(Math.random() * chars.length)];
-        }
 
-        function generateAmount() {
-            return (Math.random() * (789000 - 90000) + 90000).toFixed(2);
-        }
+    <div class="feature-card">
+      <i class="ph ph-trend-up icon"></i>
+      <h3>Steady Returns</h3>
+      <p>From the point of making deposits, your investments starts yielding and grows exponentially with a steady pace.</p>
+    </div>
 
-        function getCurrentDate() {
-            return new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-        }
+    <div class="feature-card">
+      <i class="ph ph-currency-btc icon"></i>
+      <h3>100x leverage trading</h3>
+      <p>Benefit from fast order execution, tight spreads, and advanced platform features to increase your profitability.</p>
+    </div>
 
-        function updateTable() {
-            const tableBody = document.getElementById("revenueTable");
+    <div class="feature-card">
+      <i class="ph ph-shield-check icon"></i>
+      <h3>Industry-leading security</h3>
+      <p>Keep your funds safe with our multi-level security system. Majority of digital assets are held in cold storage.</p>
+    </div>
+  </section>
 
-            let row = `<tr>
-                <td>${generateUsername()}</td>
-                <td>${generateAmount()}</td>
-                <td>${getCurrentDate()}</td>
-            </tr>`;
+  <footer class="footer">
+  <div class="footer-top">
+    <p><strong>Bit-Digital Mining Online DOES NOT ACCEPT ANY USERS FROM THE COUNTRIES OR TERRITORIES WHERE ITS ACTIVITY SHALL BE SPECIALLY LICENSED, ACCREDITED OR REGULATED BY OTHER WAYS.</strong></p>
+    <p>YOU SHALL CHECK YOUR APPLICABLE LAW AND BE FULLY RESPONSIBLE FOR ANY NEGATIVE IMPACT ARISING FROM YOUR RESIDENCE COUNTRY REGULATIONS. IF YOU ARE TRAVELLING TO ANY OF THESE COUNTRIES, YOU ACKNOWLEDGE THAT OUR SERVICES MAY BE UNAVAILABLE AND/OR BLOCKED IN SUCH COUNTRIES. THE COMPANY DOES ACCEPT ONLY PARTICIPANTS:</p>
+    
+    <ul>
+      <li>he/she/it is of an age of majority (at least 18 years of age), meets all other eligibility criteria and residency requirements, and is fully able and legally competent to use the Website.</li>
+      <li>he/she/it has the necessary and relevant experience and knowledge to deal with cryptocurrencies and Blockchain-based systems, is aware of all the merits, risks and any restrictions associated with them.</li>
+      <li>he/she/it is not a foreign or domestic PEP.</li>
+      <li>he/she/it will not use the Website for any illegal activity, including but not limited to money laundering and the financing of terrorism.</li>
+    </ul>
 
-            tableBody.insertAdjacentHTML("afterbegin", row);
+    <p>Keep in mind that Bitcoin trading with margin may be subject to taxation. You are solely responsible for withholding, collecting, reporting, paying, settling and/or remitting any and all taxes to the appropriate tax authorities in such jurisdiction(s) in which you may be liable to pay tax.</p>
 
-            if (tableBody.rows.length > 10) {
-                tableBody.deleteRow(10);
-            }
-        }
+    <p>Bit-Digital Mining Online shall not be responsible for collecting, reporting, paying, settling and/or remitting any taxes (including, but not limited to, income, capital gains, sales, value-added or similar tax) which may arise from your participation in the Bitcoin trading with margin.</p>
 
-        for (let i = 0; i < 8; i++) {
-            updateTable();
-        }
+    <p>Content, research, tools, and coin symbols are for educational and illustrative purposes only and do not imply a recommendation or solicitation to buy or sell a particular asset. Investments involve risks, and you alone are responsible for evaluating them.</p>
+  </div>
 
-        setInterval(updateTable, 3000);
-    </script>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Bit-Digital Mining Online. All rights reserved.</p>
+    <p>
+      Contact: <a href="mailto:support@bit-digital-mining.online">support@bit-digital-mining.online</a> |
+      Phone: <a href="tel:+15074020696">+1 872 270 4951</a> |
+      Address: 31 Hudson Yards, New York, NY, USA Floor 14 New York, 10001
+    </p>
+  </div>
+</footer>
 
-<script>
-  async function fetchCryptoPrices() {
-    const apiKey = "1aec13d8-f4ef-4b88-84f1-9d49213d3987"; // Your API key
-    const url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=" + apiKey;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.status.error_code === 0) {
-        const cryptos = data.data;
-
-        // Find BTC, ETH, and USDT prices
-        const btc = cryptos.find(coin => coin.symbol === "BTC");
-        const eth = cryptos.find(coin => coin.symbol === "ETH");
-        const usdt = cryptos.find(coin => coin.symbol === "USDT");
-
-        if (btc) {
-          document.querySelector(".quotation-list li:nth-child(1) .coin-price").textContent = `$${btc.quote.USD.price.toFixed(2)}`;
-          document.querySelector(".quotation-list li:nth-child(1) .coin-change").textContent = `${btc.quote.USD.percent_change_24h.toFixed(2)}%`;
-          document.querySelector(".quotation-list li:nth-child(1) .coin-change").classList.toggle("positive", btc.quote.USD.percent_change_24h > 0);
-          document.querySelector(".quotation-list li:nth-child(1) .coin-change").classList.toggle("negative", btc.quote.USD.percent_change_24h < 0);
-        }
-
-        if (eth) {
-          document.querySelector(".quotation-list li:nth-child(2) .coin-price").textContent = `$${eth.quote.USD.price.toFixed(2)}`;
-          document.querySelector(".quotation-list li:nth-child(2) .coin-change").textContent = `${eth.quote.USD.percent_change_24h.toFixed(2)}%`;
-          document.querySelector(".quotation-list li:nth-child(2) .coin-change").classList.toggle("positive", eth.quote.USD.percent_change_24h > 0);
-          document.querySelector(".quotation-list li:nth-child(2) .coin-change").classList.toggle("negative", eth.quote.USD.percent_change_24h < 0);
-        }
-
-        if (usdt) {
-          document.querySelector(".quotation-list li:nth-child(3) .coin-price").textContent = `$${usdt.quote.USD.price.toFixed(4)}`;
-          document.querySelector(".quotation-list li:nth-child(3) .coin-change").textContent = `${usdt.quote.USD.percent_change_24h.toFixed(2)}%`;
-          document.querySelector(".quotation-list li:nth-child(3) .coin-change").classList.toggle("positive", usdt.quote.USD.percent_change_24h > 0);
-          document.querySelector(".quotation-list li:nth-child(3) .coin-change").classList.toggle("negative", usdt.quote.USD.percent_change_24h < 0);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching crypto prices:", error);
+  <script>
+    // Revenue auto-update
+    function generateUsername() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      return chars[Math.floor(Math.random() * chars.length)] + "*".repeat(Math.floor(Math.random() * 5) + 3) +
+             chars[Math.floor(Math.random() * chars.length)];
     }
-  }
 
-  // Fetch prices every 60 seconds
-  fetchCryptoPrices();
-  setInterval(fetchCryptoPrices, 60000);
-</script>
-<script src="script.js">
-</script>
+    function generateAmount() {
+      return (Math.random() * (789000 - 90000) + 90000).toFixed(2);
+    }
+
+    function getCurrentDate() {
+      return new Date().toISOString().split("T")[0];
+    }
+
+    function updateTable() {
+      const tableBody = document.getElementById("revenueTable");
+      const row = `<tr><td>${generateUsername()}</td><td>${generateAmount()}</td><td>${getCurrentDate()}</td></tr>`;
+      tableBody.insertAdjacentHTML("afterbegin", row);
+      if (tableBody.rows.length > 10) tableBody.deleteRow(10);
+    }
+
+    for (let i = 0; i < 8; i++) updateTable();
+    setInterval(updateTable, 3000);
+  </script>
+
 </body>
 </html>
