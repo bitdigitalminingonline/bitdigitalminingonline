@@ -3,48 +3,324 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register</title>
+  <title>Auth Form - Bit Digital</title>
+  <style>
+    body {
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      color: #ccc;
+      padding: 40px 10px;
+    }
 
-  <!-- Firebase SDK & Registration Logic (use modules) -->
-  <script type="module" src="firebase.js"></script>
-  <script type="module" src="register.js"></script>
+    .auth-container {
+      background-color: #111;
+      color: #ccc;
+      max-width: 400px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+    }
 
-  <!-- Optional CSS -->
-  <link rel="stylesheet" href="register.css" />
+    .auth-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .auth-toggle button {
+      flex: 1;
+      padding: 10px;
+      background: none;
+      color: #ccc;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .auth-toggle button.active {
+      color: #295FFF;
+      border-color: #295FFF;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #1a1a1a;
+      color: white;
+    }
+
+    input::placeholder {
+      color: #777;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #295FFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .terms {
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .logout-btn {
+      margin-top: 10px;
+      display: none;
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      border: none;
+      color: #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Create an Account</h2>
-    <form id="registerForm">
-      <label for="username">Username</label>
-      <input type="text" id="username" placeholder="Enter your username" required />
 
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Enter your password" required />
+  <div class="auth-container">
+    <div class="auth-toggle">
+      <button id="loginBtn" class="active">Login</button>
+      <button id="signupBtn">Signup</button>
+    </div>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Enter your email" required />
+    <form id="authForm">
+      <div class="form-group signup-only">
+        <input type="text" id="username" placeholder="Username" />
+      </div>
+      <div class="form-group signup-only">
+        <input type="text" id="fullname" placeholder="Full Name" />
+      </div>
+      <div class="form-group">
+        <input type="email" id="email" placeholder="Email" required />
+      </div>
+      <div class="form-group signup-only">
+        <select id="country">
+          <option value="">Select Country</option>
+        </select>
+      </div>
+      <div class="form-group signup-only">
+        <select id="currency">
+          <option value="">Select Currency</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" placeholder="Password" required />
+      </div>
 
-      <label for="fullname">Full Name</label>
-      <input type="text" id="fullname" placeholder="Enter your full name" required />
+      <p class="terms signup-only">
+        By clicking Sign Up, you agree to our Terms and Conditions.
+      </p>
 
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" placeholder="Enter your phone number" required />
-
-      <label for="currency">Preferred Currency</label>
-<select id="currency" required>
-  <option value="$">USD ($)</option>
-  <option value="€">EUR (€)</option>
-  <option value="$">AUD ($)</option>
-  <option value="£">GBP (£)</option>
-  <option value="¥">JPY (¥)</option>
-  <option value="₹">INR (₹)</option>
-</select>
-
-
-      <button type="submit">Register</button>
+      <button type="submit" class="submit-btn" id="submitBtn">Login</button>
+      <button type="button" class="logout-btn" id="logoutBtn">Logout</button>
     </form>
-    <p class="link-text">Already have an account? <a href="login.html">Login</a></p>
   </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDtCfsMkc_Z_9ZeF0TEHTDFBzLlkU-egSc",
+      authDomain: "tradevanta-a3e0d.firebaseapp.com",
+      projectId: "tradevanta-a3e0d",
+      storageBucket: "tradevanta-a3e0d.appspot.com",
+      messagingSenderId: "441098922985",
+      appId: "1:441098922985:web:163878a0ef5b2054f8b978"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginBtn = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
+    const form = document.getElementById("authForm");
+    const signupOnly = document.querySelectorAll(".signup-only");
+    const submitBtn = document.getElementById("submitBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    loginBtn.addEventListener("click", () => {
+      loginBtn.classList.add("active");
+      signupBtn.classList.remove("active");
+      signupOnly.forEach(el => el.style.display = "none");
+      submitBtn.textContent = "Login";
+      logoutBtn.style.display = "none"; 
+    });
+
+    signupBtn.addEventListener("click", () => {
+      signupBtn.classList.add("active");
+      loginBtn.classList.remove("active");
+      signupOnly.forEach(el => el.style.display = "block");
+      submitBtn.textContent = "Signup";
+      logoutBtn.style.display = "none";
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const isSignup = signupBtn.classList.contains("active");
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        return alert("Please fill in all required fields (Email and Password).");
+      }
+
+      if (isSignup) {
+        const username = document.getElementById("username").value.trim();
+        const fullname = document.getElementById("fullname").value.trim();
+        const country = document.getElementById("country").value;
+        const currency = document.getElementById("currency").value;
+
+        if (!username || !fullname || !country || !currency) {
+          return alert("Please complete all signup fields.");
+        }
+
+        if (!/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(password)) {
+          return alert("Password must be at least 6 characters and include at least one letter and one number.");
+        }
+
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const uid = userCredential.user.uid;
+
+          const userData = {
+            username,
+            fullname,
+            email,
+            country,
+            currency,
+            balance: 0,
+            registrationDate: new Date().toISOString()
+          };
+
+          await setDoc(doc(db, "users", uid), userData);
+
+          // Store in localStorage
+          localStorage.setItem("uid", uid);               // ✅ Store UID
+          localStorage.setItem("username", username);
+          localStorage.setItem("balance", 0);
+          localStorage.setItem("currency", currency);
+
+          alert("Registration successful! Redirecting to dashboard...");
+          window.location.href = "dashboard.html";
+        } catch (error) {
+          console.error("Signup Error:", error);
+          let errorMessage = "An error occurred during signup.";
+          if (error.code === "auth/email-already-in-use") {
+            errorMessage = "This email is already registered. Please use a different email or log in.";
+          } else if (error.code === "auth/invalid-email") {
+            errorMessage = "The email address is not valid.";
+          } else if (error.code === "auth/weak-password") {
+            errorMessage = "The password is too weak. Please choose a stronger password.";
+          } else {
+            errorMessage = `Signup failed: ${error.message}`;
+          }
+          alert(errorMessage);
+        }
+
+      } else { // Login
+        try {
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const uid = userCredential.user.uid;
+
+          const userDocRef = doc(db, "users", uid);
+          const docSnap = await getDoc(userDocRef);
+
+          if (!docSnap.exists()) {
+            alert("User data not found in Firestore. Please contact support.");
+            await signOut(auth);
+            localStorage.clear();
+            return;
+          }
+
+          const userData = docSnap.data();
+          localStorage.setItem("uid", uid);               // ✅ Store UID
+          localStorage.setItem("username", userData.username);
+          localStorage.setItem("balance", userData.balance);
+          localStorage.setItem("currency", userData.currency);
+
+          alert("Login successful! Redirecting to dashboard...");
+          window.location.href = "dashboard.html";
+        } catch (error) {
+          console.error("Login Error:", error);
+          let errorMessage = "An error occurred during login.";
+          if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+            errorMessage = "Invalid email or password.";
+          } else if (error.code === "auth/invalid-email") {
+            errorMessage = "The email address is not valid.";
+          } else {
+            errorMessage = `Login failed: ${error.message}`;
+          }
+          alert(errorMessage);
+        }
+      }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        localStorage.clear();
+        alert("Logged out successfully!");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Logout Error:", error);
+        alert("Failed to log out: " + error.message);
+      }
+    });
+
+    const countries = [
+      "United States", "United Kingdom", "Canada", "India", "Australia", "Germany", "France", "China", "South Africa", "Nigeria"
+    ];
+
+    const currencyMap = {
+      "USD": "$", "EUR": "€", "GBP": "£", "INR": "₹",
+      "AUD": "A$", "CAD": "C$", "ETH": "Ξ", "USDT": "₮", "NGN": "₦"
+    };
+
+    const countrySelect = document.getElementById("country");
+    const currencySelect = document.getElementById("currency");
+
+    countrySelect.innerHTML = '<option value="">Select Country</option>';
+    currencySelect.innerHTML = '<option value="">Select Currency</option>';
+
+    countries.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      countrySelect.appendChild(opt);
+    });
+
+    Object.entries(currencyMap).forEach(([code, symbol]) => {
+      const opt = document.createElement("option");
+      opt.value = code;
+      opt.textContent = `${symbol} (${code})`;
+      currencySelect.appendChild(opt);
+    });
+
+    // Show signup view by default
+    signupBtn.click();
+  </script>
+
 </body>
 </html>
